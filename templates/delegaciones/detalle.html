@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+Detalle de Delegación | SIGED
+{% endblock %}
+
+
+{% block contenido %}
+
+<section class="seccion-delegaciones">
+
+    <div class="container">
+
+
+        {% if delegacion %}
+
+
+        <div class="mb-4">
+
+            <a
+                href="/delegaciones/"
+                class="btn btn-outline-secondary">
+
+                ← Volver a Delegaciones
+
+            </a>
+
+        </div>
+
+
+        <div class="card shadow-sm border-0">
+
+            <div class="card-body p-5">
+
+
+                <h1 class="titulo-seccion mb-3">
+
+                    {{ delegacion.nombre }}
+
+                </h1>
+
+
+                <p class="text-muted mb-4">
+
+                    {{ delegacion.sector }}
+
+                </p>
+
+
+                <hr>
+
+
+                <h4 class="mt-4">
+                    Información de la Delegación
+                </h4>
+
+
+                <p class="mt-3">
+
+                    {{ delegacion.descripcion }}
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+
+        <div class="alert alert-danger">
+
+            La delegación solicitada no fue encontrada.
+
+        </div>
+
+
+        <a
+            href="/delegaciones/"
+            class="btn btn-siged">
+
+            Volver a Delegaciones
+
+        </a>
+
+
+        {% endif %}
+
+
+    </div>
+
+</section>
+
+{% endblock %}

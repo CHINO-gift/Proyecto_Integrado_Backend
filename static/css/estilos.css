@@ -1,0 +1,408 @@
+/* ==========================================
+   CONFIGURACIÓN GENERAL
+   ========================================== */
+
+body {
+    margin: 0;
+    background-color: #f4f6f8;
+    color: #263442;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contenido-principal {
+    min-height: 70vh;
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.header-siged {
+    width: 100%;
+}
+
+
+/* ==========================================
+   BARRA SUPERIOR
+   ========================================== */
+
+.barra-superior {
+    background-color: #17191c;
+    border-bottom: 1px solid #363a3e;
+}
+
+.contenido-superior {
+    min-height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* ==========================================
+   MARCA SIGED
+   ========================================== */
+
+.marca-siged {
+    display: flex;
+    align-items: center;
+}
+
+.logo-siged {
+    color: #ffffff;
+
+    font-size: 30px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    text-decoration: none;
+}
+
+.logo-siged:hover {
+    color: #ffffff;
+}
+
+.separador {
+    width: 1px;
+    height: 30px;
+
+    background-color: #666b70;
+
+    margin: 0 18px;
+}
+
+.nombre-sistema {
+    color: #c8cdd2;
+
+    font-size: 13px;
+}
+
+
+/* ==========================================
+   ENLACES SUPERIORES
+   ========================================== */
+
+.enlaces-superiores {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+}
+
+.enlaces-superiores a {
+    color: #d5d8dc;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+.enlaces-superiores a:hover {
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   SEGUNDA BARRA
+   ========================================== */
+
+.barra-principal {
+    background-color: #222529;
+
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+}
+
+.barra-principal .nav-link {
+    color: #f4f4f4;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    padding: 17px 18px !important;
+
+    transition:
+        background-color 0.2s,
+        color 0.2s;
+}
+
+.barra-principal .nav-link:hover {
+    color: #ffffff;
+
+    background-color: #34383d;
+}
+
+
+/* ==========================================
+   BOTÓN ACCESO
+   ========================================== */
+
+.barra-principal .acceso-sistema {
+    background-color: #ffffff;
+
+    color: #17324d !important;
+
+    border-radius: 25px;
+
+    padding: 9px 22px !important;
+
+    margin: 7px 0;
+
+    font-weight: 700;
+}
+
+.barra-principal .acceso-sistema:hover {
+    background-color: #e5e8eb;
+
+    color: #17324d !important;
+}
+
+
+/* ==========================================
+   HERO
+   ========================================== */
+
+.hero-siged {
+    background:
+        linear-gradient(
+            120deg,
+            #17324d 0%,
+            #1d4964 55%,
+            #286a80 100%
+        );
+
+    color: #ffffff;
+
+    padding: 55px 0;
+}
+
+.hero-siged h1 {
+    font-size: 38px;
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+}
+
+.hero-siged p {
+    color: #d9e5ec;
+
+    font-size: 17px;
+
+    max-width: 700px;
+
+    margin-bottom: 0;
+}
+
+
+/* ==========================================
+   SECCIÓN DELEGACIONES
+   ========================================== */
+
+.seccion-delegaciones {
+    padding: 50px 0;
+}
+
+.titulo-seccion {
+    color: #17324d;
+
+    font-weight: 700;
+}
+
+.descripcion-seccion {
+    color: #6c757d;
+
+    margin-bottom: 30px;
+}
+
+
+/* ==========================================
+   TARJETAS
+   ========================================== */
+
+.tarjeta-delegacion {
+    height: 100%;
+
+    border: 1px solid #e3e7ea;
+
+    border-radius: 12px;
+
+    background-color: #ffffff;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.tarjeta-delegacion:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+}
+
+.tarjeta-contenido {
+    padding: 25px;
+}
+
+.tarjeta-delegacion h3 {
+    color: #17324d;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.sector-delegacion {
+    color: #71808d;
+
+    font-size: 14px;
+
+    margin-bottom: 18px;
+}
+
+.descripcion-delegacion {
+    color: #485763;
+
+    line-height: 1.6;
+
+    min-height: 75px;
+}
+
+
+/* ==========================================
+   BOTÓN DELEGACIÓN
+   ========================================== */
+
+.btn-siged {
+    display: inline-block;
+
+    width: 100%;
+
+    padding: 10px 15px;
+
+    background-color: #1d526b;
+
+    color: #ffffff;
+
+    border: none;
+
+    border-radius: 7px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+    transition: background-color 0.2s;
+}
+
+.btn-siged:hover {
+    background-color: #17324d;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+.footer-siged {
+    background-color: #17191c;
+
+    color: #ffffff;
+
+    padding: 35px 0;
+
+    margin-top: 40px;
+}
+
+.footer-siged h5 {
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.footer-siged p,
+.footer-siged small {
+    color: #adb5bd;
+}
+
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 991px) {
+
+    .contenido-superior {
+        min-height: 65px;
+    }
+
+    .nombre-sistema,
+    .separador {
+        display: none;
+    }
+
+    .enlaces-superiores {
+        display: none;
+    }
+
+    .barra-principal {
+        padding: 10px 0;
+    }
+
+    .barra-principal .nav-link {
+        padding: 12px 5px !important;
+    }
+
+    .barra-principal .acceso-sistema {
+        display: inline-block;
+
+        padding: 9px 18px !important;
+    }
+
+}
+
+
+@media (max-width: 576px) {
+
+    .logo-siged {
+        font-size: 25px;
+    }
+
+    .hero-siged {
+        padding: 40px 0;
+    }
+
+    .hero-siged h1 {
+        font-size: 30px;
+    }
+
+}
+.imagen-hero {
+    width: 100%;
+    height: auto;
+
+    display: block;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.20);
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.25);
+}

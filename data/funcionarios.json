@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "nombre": "Funcionario 01",
+        "cargo": "Gestor Territorial",
+        "delegacion": "Centro",
+        "meta": 20,
+        "avance": 16
+    },
+    {
+        "id": 2,
+        "nombre": "Funcionario 02",
+        "cargo": "Apoyo Administrativo",
+        "delegacion": "Avenida del Mar",
+        "meta": 20,
+        "avance": 12
+    },
+    {
+        "id": 3,
+        "nombre": "Funcionario 03",
+        "cargo": "Gestor Social",
+        "delegacion": "La Pampa",
+        "meta": 20,
+        "avance": 9
+    },
+    {
+        "id": 4,
+        "nombre": "Funcionario 04",
+        "cargo": "Gestor Territorial",
+        "delegacion": "Las Compañías",
+        "meta": 20,
+        "avance": 18
+    },
+    {
+        "id": 5,
+        "nombre": "Funcionario 05",
+        "cargo": "Apoyo Administrativo",
+        "delegacion": "Rural",
+        "meta": 20,
+        "avance": 7
+    },
+    {
+        "id": 6,
+        "nombre": "Funcionario 06",
+        "cargo": "Gestor Social",
+        "delegacion": "La Antena",
+        "meta": 20,
+        "avance": 14
+    }
+]

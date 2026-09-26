@@ -1,0 +1,32 @@
+[
+    {
+        "nombre": "Centro",
+        "sector": "Centro de La Serena",
+        "descripcion": "Delegación encargada de la atención y gestión de requerimientos del sector centro."
+    },
+    {
+        "nombre": "Avenida del Mar",
+        "sector": "Avenida del Mar",
+        "descripcion": "Delegación orientada a la gestión y coordinación de requerimientos del sector costero."
+    },
+    {
+        "nombre": "La Pampa",
+        "sector": "La Pampa",
+        "descripcion": "Delegación encargada de gestionar solicitudes y necesidades del sector."
+    },
+    {
+        "nombre": "Las Compañías",
+        "sector": "Las Compañías",
+        "descripcion": "Delegación encargada de atender y gestionar requerimientos de la comunidad."
+    },
+    {
+        "nombre": "Rural",
+        "sector": "Sector Rural",
+        "descripcion": "Delegación orientada a la gestión de necesidades de sectores rurales de la comuna."
+    },
+    {
+        "nombre": "La Antena",
+        "sector": "La Antena",
+        "descripcion": "Delegación encargada de coordinar y gestionar solicitudes del sector."
+    }
+]

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Detalle Funcionario | SIGED{% endblock %}
+
+{% block contenido %}
+
+<section class="hero-siged">
+    <div class="container">
+        <h1>Detalle del Funcionario</h1>
+        <p>
+            Información individual del funcionario y su nivel de cumplimiento.
+        </p>
+    </div>
+</section>
+
+<section class="seccion-delegaciones">
+    <div class="container">
+
+        {% if funcionario %}
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+
+                        <h2 class="fw-bold mb-3">
+                            {{ funcionario.nombre }}
+                        </h2>
+
+                        <hr>
+
+                        <p>
+                            <strong>Cargo:</strong>
+                            {{ funcionario.cargo }}
+                        </p>
+
+                        <p>
+                            <strong>Delegación:</strong>
+                            {{ funcionario.delegacion }}
+                        </p>
+
+                        <p>
+                            <strong>Meta:</strong>
+                            {{ funcionario.meta }}
+                        </p>
+
+                        <p>
+                            <strong>Avance:</strong>
+                            {{ funcionario.avance }}
+                        </p>
+
+                        <div class="mt-4">
+
+                            <div class="d-flex justify-content-between">
+                                <span>
+                                    <strong>Cumplimiento</strong>
+                                </span>
+
+                                <span>
+                                    <strong>{{ funcionario.porcentaje }}%</strong>
+                                </span>
+                            </div>
+
+                            <div class="progress mt-2" style="height: 25px;">
+
+                                <div
+                                    class="progress-bar bg-{{ funcionario.clase_estado }}"
+                                    role="progressbar"
+                                    style="width: {{ funcionario.porcentaje }}%;">
+
+                                    {{ funcionario.porcentaje }}%
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <strong>Estado:</strong>
+
+                            <span class="badge bg-{{ funcionario.clase_estado }} fs-6">
+                                {{ funcionario.estado }}
+                            </span>
+
+                        </div>
+
+                        <div class="mt-4">
+
+                            <a
+                                href="{% url 'inicio_funcionarios' %}"
+                                class="btn-siged">
+
+                                Volver a Funcionarios
+
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="alert alert-danger">
+            No se encontró el funcionario solicitado.
+        </div>
+
+        <a
+            href="{% url 'inicio_funcionarios' %}"
+            class="btn-siged">
+
+            Volver a Funcionarios
+
+        </a>
+
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

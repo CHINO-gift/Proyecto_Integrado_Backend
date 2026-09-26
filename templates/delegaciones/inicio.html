@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block titulo %}
+Delegaciones | SIGED
+{% endblock %}
+
+
+{% block contenido %}
+
+<section class="hero-siged">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+
+                <h1>
+                    Gestión de Delegaciones
+                </h1>
+
+                <p>
+                    Plataforma para visualizar y organizar la información
+                    de las delegaciones municipales de La Serena.
+                </p>
+
+            </div>
+
+
+            <div class="col-lg-5 mt-4 mt-lg-0">
+
+                <img
+                    src="{% static 'img/delegaciones.jpg' %}"
+                    alt="Delegaciones Municipales"
+                    class="img-fluid imagen-hero">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="seccion-delegaciones">
+
+    <div class="container">
+
+        <div class="mb-4">
+
+            <h2 class="titulo-seccion">
+                Delegaciones Municipales
+            </h2>
+
+            <p class="descripcion-seccion">
+                Selecciona una delegación para consultar
+                su información y gestión.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            {% for delegacion in delegaciones %}
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <div class="tarjeta-delegacion">
+
+                    <div class="tarjeta-contenido">
+
+                        <h3>
+                            {{ delegacion.nombre }}
+                        </h3>
+
+                        <p class="sector-delegacion">
+                            {{ delegacion.sector }}
+                        </p>
+
+                        <p class="descripcion-delegacion">
+                            {{ delegacion.descripcion }}
+                        </p>
+
+                        <a
+                            href="{% url 'detalle_delegacion' delegacion.nombre %}"
+                            class="btn-siged">
+
+                            Ver delegación
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
