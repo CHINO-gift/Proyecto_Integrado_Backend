@@ -1,48 +1,28 @@
-import json
-
-from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Delegacion
 
 
 def inicio(request):
-
-    ruta_json = settings.BASE_DIR / 'data' / 'delegaciones.json'
-
-    with open(ruta_json, 'r', encoding='utf-8') as archivo:
-        delegaciones = json.load(archivo)
-
-    contexto = {
-        'delegaciones': delegaciones
-    }
+    # Obtener todas las delegaciones desde MySQL mediante Django ORM
+    delegaciones = Delegacion.objects.all()
 
     return render(
         request,
         'delegaciones/inicio.html',
-        contexto
+        {
+            'delegaciones': delegaciones
+        }
     )
 
 
-def detalle(request, nombre):
-
-    ruta_json = settings.BASE_DIR / 'data' / 'delegaciones.json'
-
-    with open(ruta_json, 'r', encoding='utf-8') as archivo:
-        delegaciones = json.load(archivo)
-
-    delegacion_encontrada = None
-
-    for delegacion in delegaciones:
-
-        if delegacion['nombre'].lower() == nombre.lower():
-            delegacion_encontrada = delegacion
-            break
-
-    contexto = {
-        'delegacion': delegacion_encontrada
-    }
+def detalle(request, id):
+    # Obtener una delegación específica desde MySQL
+    delegacion = get_object_or_404(Delegacion, id=id)
 
     return render(
         request,
         'delegaciones/detalle.html',
-        contexto
+        {
+            'delegacion': delegacion
+        }
     )

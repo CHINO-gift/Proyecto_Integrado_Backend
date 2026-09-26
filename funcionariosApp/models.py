@@ -24,6 +24,22 @@ class Funcionario(models.Model):
             return round((self.avance / self.meta) * 100)
         return 0
 
+    @property
+    def estado(self):
+        if self.porcentaje >= 80:
+            return "Alto"
+        elif self.porcentaje >= 50:
+            return "Medio"
+        return "Bajo"
+
+    @property
+    def clase_estado(self):
+        if self.porcentaje >= 80:
+            return "success"
+        elif self.porcentaje >= 50:
+            return "warning"
+        return "danger"
+
     class Meta:
         db_table = 'funcionarios'
         verbose_name = 'Funcionario'

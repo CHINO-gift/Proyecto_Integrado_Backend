@@ -61,6 +61,72 @@ Funcionarios | SIGED
         </div>
 
 
+        <!-- CONTROLES VISUALES CRUD -->
+        <div class="card shadow-sm border-0 mb-4">
+
+            <div class="card-body">
+
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-12 col-lg-5">
+
+                        <div class="input-group">
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Buscar funcionario...">
+
+                            <button
+                                type="button"
+                                class="btn btn-primary">
+
+                                Buscar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-12 col-lg-7">
+
+                        <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
+
+                            <a href="#"
+                               class="btn btn-success">
+
+                                Agregar
+
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-warning">
+
+                                Modificar
+
+                            </a>
+
+                            <a href="#"
+                               class="btn btn-danger">
+
+                                Eliminar
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LISTADO DE FUNCIONARIOS -->
         <div class="row g-4">
 
             {% for funcionario in funcionarios %}
@@ -132,6 +198,16 @@ Funcionarios | SIGED
 
                     </div>
 
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="col-12">
+
+                <div class="alert alert-info">
+                    No existen funcionarios registrados.
                 </div>
 
             </div>
