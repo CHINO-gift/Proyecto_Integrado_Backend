@@ -3,26 +3,34 @@ import os
 from dotenv import load_dotenv
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# =========================================================
+# RUTAS DEL PROYECTO
+# =========================================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Cargar variables desde el archivo .env
+
+# =========================================================
+# VARIABLES DE ENTORNO
+# =========================================================
+
 load_dotenv(BASE_DIR / '.env')
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+# =========================================================
+# SEGURIDAD
+# =========================================================
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q2^$6r$!@n%u%4x90f+cj$g&x7mzuvg8zf#6y*+^3z2_e0wgzk'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# =========================================================
+# APLICACIONES INSTALADAS
+# =========================================================
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,10 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Aplicaciones del proyecto
     'delegacionesApp',
     'funcionariosApp',
-    'crispy_forms',
 ]
+
+
+# =========================================================
+# MIDDLEWARE
+# =========================================================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -47,13 +60,28 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+# =========================================================
+# CONFIGURACIÓN DE URLS
+# =========================================================
+
 ROOT_URLCONF = 'config.urls'
+
+
+# =========================================================
+# TEMPLATES
+# =========================================================
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+
+        'DIRS': [
+            BASE_DIR / 'templates',
+        ],
+
         'APP_DIRS': True,
+
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -64,10 +92,17 @@ TEMPLATES = [
     },
 ]
 
+
+# =========================================================
+# WSGI
+# =========================================================
+
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database - MySQL / WampServer
+# =========================================================
+# BASE DE DATOS MYSQL
+# =========================================================
 
 DATABASES = {
     'default': {
@@ -81,7 +116,9 @@ DATABASES = {
 }
 
 
-# Password validation
+# =========================================================
+# VALIDACIÓN DE CONTRASEÑAS
+# =========================================================
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -99,18 +136,22 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
+# =========================================================
+# IDIOMA Y ZONA HORARIA
+# =========================================================
 
-LANGUAGE_CODE = 'es-us'
+LANGUAGE_CODE = 'es-cl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# =========================================================
+# ARCHIVOS ESTÁTICOS
+# =========================================================
 
 STATIC_URL = 'static/'
 
@@ -119,10 +160,8 @@ STATICFILES_DIRS = [
 ]
 
 
-# Email
+# =========================================================
+# CLAVE PRIMARIA POR DEFECTO
+# =========================================================
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
