@@ -1,3 +1,4 @@
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -14,17 +15,19 @@
     </title>
 
     <!-- BOOTSTRAP LOCAL -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet"
+          href="{% static 'css/bootstrap.min.css' %}">
 
-    <!-- CSS PROPIO -->
-    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+    <!-- CSS ORIGINAL DE SIGED -->
+    <link rel="stylesheet"
+          href="{% static 'css/estilos.css' %}">
+
 </head>
-
 
 <body>
 
     <!-- ===================================== -->
-    <!-- HEADER -->
+    <!-- ENCABEZADO PRINCIPAL -->
     <!-- ===================================== -->
 
     <header class="header-siged">
@@ -39,7 +42,8 @@
 
                     <div class="marca-siged">
 
-                        <a href="/delegaciones/" class="logo-siged">
+                        <a href="{% url 'inicio_delegaciones' %}"
+                           class="logo-siged">
                             SIGED
                         </a>
 
@@ -50,7 +54,6 @@
                         </span>
 
                     </div>
-
 
                     <div class="enlaces-superiores">
 
@@ -75,7 +78,9 @@
         </div>
 
 
+        <!-- ===================================== -->
         <!-- BARRA DE NAVEGACIÓN -->
+        <!-- ===================================== -->
 
         <nav class="barra-principal">
 
@@ -103,11 +108,13 @@
 
                         <ul class="navbar-nav w-100 align-items-lg-center">
 
+                            <!-- INICIO -->
+
                             <li class="nav-item">
 
                                 <a
                                     class="nav-link"
-                                    href="/delegaciones/">
+                                    href="{% url 'inicio_delegaciones' %}">
 
                                     Inicio
 
@@ -116,11 +123,13 @@
                             </li>
 
 
+                            <!-- DELEGACIONES -->
+
                             <li class="nav-item">
 
                                 <a
                                     class="nav-link"
-                                    href="/delegaciones/">
+                                    href="{% url 'inicio_delegaciones' %}">
 
                                     Delegaciones
 
@@ -129,11 +138,13 @@
                             </li>
 
 
+                            <!-- FUNCIONARIOS -->
+
                             <li class="nav-item">
 
                                 <a
                                     class="nav-link"
-                                    href="/funcionarios/">
+                                    href="{% url 'inicio_funcionarios' %}">
 
                                     Funcionarios
 
@@ -141,6 +152,8 @@
 
                             </li>
 
+
+                            <!-- SEGUIMIENTO -->
 
                             <li class="nav-item">
 
@@ -155,6 +168,8 @@
                             </li>
 
 
+                            <!-- REPORTES -->
+
                             <li class="nav-item">
 
                                 <a
@@ -168,15 +183,37 @@
                             </li>
 
 
+                            <!-- ================================= -->
+                            <!-- EVA 3 - AUTENTICACIÓN -->
+                            <!-- ================================= -->
+
                             <li class="nav-item ms-lg-auto">
 
-                                <a
-                                    class="nav-link acceso-sistema"
-                                    href="#">
+                                {% if user.is_authenticated %}
 
-                                    Acceso al sistema
+                                    <!-- USUARIO CON SESIÓN -->
 
-                                </a>
+                                    <a
+                                        class="nav-link acceso-sistema"
+                                        href="{% url 'panel_principal' %}">
+
+                                        Mi panel
+
+                                    </a>
+
+                                {% else %}
+
+                                    <!-- USUARIO SIN SESIÓN -->
+
+                                    <a
+                                        class="nav-link acceso-sistema"
+                                        href="{% url 'login' %}">
+
+                                        Acceso al sistema
+
+                                    </a>
+
+                                {% endif %}
 
                             </li>
 
@@ -194,7 +231,7 @@
 
 
     <!-- ===================================== -->
-    <!-- CONTENIDO -->
+    <!-- CONTENIDO PRINCIPAL -->
     <!-- ===================================== -->
 
     <main class="contenido-principal">
@@ -207,7 +244,7 @@
 
 
     <!-- ===================================== -->
-    <!-- FOOTER -->
+    <!-- PIE DE PÁGINA -->
     <!-- ===================================== -->
 
     <footer class="footer-siged">
@@ -244,9 +281,13 @@
     </footer>
 
 
-    <!-- BOOTSTRAP JS LOCAL -->
+    <!-- ===================================== -->
+    <!-- BOOTSTRAP JAVASCRIPT -->
+    <!-- ===================================== -->
 
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script
+        src="{% static 'js/bootstrap.bundle.min.js' %}">
+    </script>
 
 </body>
 

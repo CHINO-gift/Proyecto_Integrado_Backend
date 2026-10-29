@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión | SIGED</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #071827,
+                #123954,
+                #21647b
+            );
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1050px;
+            min-height: 560px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 65px rgba(0,0,0,0.3);
+        }
+
+        /* LADO IZQUIERDO */
+
+        .login-info {
+            background: linear-gradient(
+                145deg,
+                #102a43,
+                #1b526b
+            );
+            padding: 65px 45px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        .linea {
+            width: 70px;
+            height: 4px;
+            background: #67c3df;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .login-info h2 {
+            font-size: 29px;
+            margin-bottom: 22px;
+        }
+
+        .login-info p {
+            color: #d2e3ed;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .municipalidad {
+            margin-top: 35px;
+            font-size: 13px;
+            color: #a7cddd;
+        }
+
+        /* LADO DERECHO */
+
+        .login-form {
+            padding: 65px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-form h1 {
+            color: #17324d;
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .subtitulo {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #263a4d;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #dce4ea;
+            border-radius: 9px;
+            background: #f8fafc;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #247494;
+            box-shadow: 0 0 0 3px
+                rgba(36,116,148,0.12);
+            background: white;
+        }
+
+        /* BOTÓN */
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: #173b59;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-login:hover {
+            background: #24617e;
+            transform: translateY(-2px);
+        }
+
+        /* ERRORES */
+
+        .alert-error {
+            background: #fff0f0;
+            color: #a52626;
+            border: 1px solid #f1c4c4;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* PIE */
+
+        .footer-login {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 12px;
+            color: #9aa8b4;
+        }
+
+        /* CELULARES */
+
+        @media (max-width: 768px) {
+
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .login-info {
+                padding: 40px 30px;
+            }
+
+            .login-info h2 {
+                font-size: 23px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+
+            .login-form {
+                padding: 45px 30px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <!-- PANEL INFORMATIVO -->
+
+        <div class="login-info">
+
+            <div class="logo">
+                SIGED
+            </div>
+
+            <div class="linea"></div>
+
+            <h2>
+                Gestión Municipal Inteligente
+            </h2>
+
+            <p>
+                Bienvenido al Sistema de Gestión
+                de Delegaciones Municipales.
+            </p>
+
+            <p>
+                Una plataforma diseñada para
+                administrar, supervisar y gestionar
+                la información municipal de manera
+                eficiente y segura.
+            </p>
+
+            <div class="municipalidad">
+                Ilustre Municipalidad de La Serena
+            </div>
+
+        </div>
+
+
+        <!-- FORMULARIO DE ACCESO -->
+
+        <div class="login-form">
+
+            <h1>
+                Bienvenido
+            </h1>
+
+            <p class="subtitulo">
+                Ingresa tus credenciales para
+                acceder al sistema SIGED.
+            </p>
+
+
+            {% if form.errors %}
+
+                <div class="alert-error" role="alert">
+                    Usuario o contraseña incorrectos.
+                    Verifica tus credenciales.
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST"
+                  action="{% url 'login' %}">
+
+                {% csrf_token %}
+
+                {% if next %}
+                    <input
+                        type="hidden"
+                        name="next"
+                        value="{{ next }}"
+                    >
+                {% endif %}
+
+
+                <!-- USUARIO -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Nombre de usuario
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        class="form-control"
+                        placeholder="Ingresa tu usuario"
+                        autocomplete="username"
+                        required
+                        autofocus
+                    >
+
+                </div>
+
+
+                <!-- CONTRASEÑA -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Ingresa tu contraseña"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- BOTÓN INGRESAR -->
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                >
+                    Ingresar a SIGED
+                </button>
+
+            </form>
+
+
+            <div class="footer-login">
+                SIGED © 2026
+                Sistema de Gestión Municipal
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

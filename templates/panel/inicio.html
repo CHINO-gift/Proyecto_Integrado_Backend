@@ -1,0 +1,308 @@
+
+{% extends 'base.html' %}
+
+{% block titulo %}
+Panel de Gestión | SIGED
+{% endblock %}
+
+{% block contenido %}
+
+<style>
+    /* FONDO DEL DASHBOARD */
+    .dashboard {
+        min-height: 80vh;
+        background: #f1f5f9;
+        padding-bottom: 70px;
+    }
+
+    /* ENCABEZADO */
+    .dashboard-header {
+        background: linear-gradient(
+            135deg,
+            #102a43,
+            #1b526b
+        );
+        padding: 55px 0;
+        color: white;
+    }
+
+    .dashboard-etiqueta {
+        color: #8fd3e8;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 34px;
+        font-weight: 750;
+        margin-bottom: 12px;
+    }
+
+    .dashboard-header p {
+        color: #d2e3ed;
+        margin-bottom: 0;
+    }
+
+    .dashboard-salir {
+        background: transparent;
+        border: 1px solid #b8d3df;
+        color: white;
+        padding: 11px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .dashboard-salir:hover {
+        background: white;
+        color: #173b59;
+    }
+
+    /* CONTENIDO */
+    .dashboard-contenido {
+        padding-top: 45px;
+    }
+
+    .dashboard-titulo {
+        color: #17324d;
+        font-size: 23px;
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    /* TARJETAS DE ESTADÍSTICAS */
+    .dashboard-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        border: 1px solid #e5edf2;
+        height: 100%;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+        transition: 0.2s;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    }
+
+    .dashboard-card h3 {
+        font-size: 16px;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .dashboard-numero {
+        color: #173b59;
+        font-size: 46px;
+        font-weight: 800;
+        margin-bottom: 25px;
+    }
+
+    .dashboard-enlace {
+        color: #17648a;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .dashboard-enlace:hover {
+        color: #102a43;
+        text-decoration: underline;
+    }
+
+    /* INFORMACIÓN */
+    .dashboard-info {
+        background: white;
+        border: 1px solid #e5edf2;
+        border-radius: 15px;
+        padding: 30px;
+        margin-top: 35px;
+    }
+
+    .dashboard-info h2 {
+        font-size: 21px;
+        font-weight: 700;
+        color: #17324d;
+        margin-bottom: 15px;
+    }
+
+    .dashboard-info p {
+        color: #64748b;
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .dashboard-header {
+            padding: 40px 0;
+        }
+
+        .dashboard-header h1 {
+            font-size: 27px;
+        }
+
+        .dashboard-salir {
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            padding: 25px;
+        }
+    }
+</style>
+
+
+<div class="dashboard">
+
+    <!-- ENCABEZADO -->
+    <section class="dashboard-header">
+
+        <div class="container">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-8">
+
+                    <div class="dashboard-etiqueta">
+                        SIGED | Área administrativa
+                    </div>
+
+                    <h1>
+                        Panel de Gestión
+                    </h1>
+
+                    <p>
+                        Bienvenido,
+                        <strong>
+                            {{ user.get_full_name|default:user.username }}
+                        </strong>
+                    </p>
+
+                    <p>
+                        Has iniciado sesión correctamente.
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 text-md-end">
+
+                    <form
+                        method="POST"
+                        action="{% url 'logout' %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="dashboard-salir"
+                        >
+                            Cerrar sesión
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="container dashboard-contenido">
+
+        <h2 class="dashboard-titulo">
+            Resumen general del sistema
+        </h2>
+
+        <div class="row g-4">
+
+            <!-- DELEGACIONES -->
+            <div class="col-md-6">
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Delegaciones registradas
+                    </h3>
+
+                    <div class="dashboard-numero">
+                        {{ total_delegaciones }}
+                    </div>
+
+                    <a
+                        href="{% url 'inicio_delegaciones' %}"
+                        class="dashboard-enlace"
+                    >
+                        Ver delegaciones &rarr;
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- FUNCIONARIOS -->
+            <div class="col-md-6">
+
+                <div class="dashboard-card">
+
+                    <h3>
+                        Funcionarios registrados
+                    </h3>
+
+                    <div class="dashboard-numero">
+                        {{ total_funcionarios }}
+                    </div>
+
+                    <a
+                        href="{% url 'inicio_funcionarios' %}"
+                        class="dashboard-enlace"
+                    >
+                        Ver funcionarios &rarr;
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INFORMACIÓN -->
+        <div class="dashboard-info">
+
+            <h2>
+                Sistema de Gestión Municipal
+            </h2>
+
+            <p>
+                Desde SIGED podrás consultar la
+                información de las delegaciones
+                municipales y los funcionarios
+                asociados a cada una de ellas.
+            </p>
+
+            <p>
+                Próximamente este panel tendrá
+                funcionalidades diferenciadas
+                según los perfiles Administrador,
+                Supervisor y Administrativo.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
