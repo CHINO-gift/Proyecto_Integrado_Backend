@@ -1,12 +1,15 @@
 
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import (
+    login_required,
+    permission_required
+)
 
 from .models import Delegacion
 
 
 # ==========================================
-# EVA 3 - MÓDULO DE DELEGACIONES
+# EVA 3 - MODULO DE DELEGACIONES
 # ==========================================
 
 
@@ -14,33 +17,41 @@ from .models import Delegacion
 # LISTADO DE DELEGACIONES
 # ==========================================
 
-@login_required(login_url='login')
+@login_required(login_url="login")
+@permission_required(
+    "delegacionesApp.view_delegacion",
+    raise_exception=True
+)
 def inicio(request):
 
     # Obtener todas las delegaciones
-    # utilizando Django ORM
+    # utilizando Django ORM.
 
     delegaciones = Delegacion.objects.all()
 
     contexto = {
-        'delegaciones': delegaciones
+        "delegaciones": delegaciones
     }
 
     return render(
         request,
-        'delegaciones/inicio.html',
+        "delegaciones/inicio.html",
         contexto
     )
 
 
 # ==========================================
-# DETALLE DE DELEGACIÓN
+# DETALLE DE DELEGACION
 # ==========================================
 
-@login_required(login_url='login')
+@login_required(login_url="login")
+@permission_required(
+    "delegacionesApp.view_delegacion",
+    raise_exception=True
+)
 def detalle(request, nombre):
 
-    # Obtener una delegación por su nombre
+    # Buscar la delegacion por su nombre.
 
     delegacion = get_object_or_404(
         Delegacion,
@@ -48,11 +59,11 @@ def detalle(request, nombre):
     )
 
     contexto = {
-        'delegacion': delegacion
+        "delegacion": delegacion
     }
 
     return render(
         request,
-        'delegaciones/detalle.html',
+        "delegaciones/detalle.html",
         contexto
     )

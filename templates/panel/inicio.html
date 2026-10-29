@@ -2,13 +2,16 @@
 {% extends 'base.html' %}
 
 {% block titulo %}
-Panel de Gestión | SIGED
+Panel de {{ perfil }} | SIGED
 {% endblock %}
 
 {% block contenido %}
 
 <style>
-    /* FONDO DEL DASHBOARD */
+    /* ======================================
+       EVA 3 - DASHBOARDS POR PERFIL
+       ====================================== */
+
     .dashboard {
         min-height: 80vh;
         background: #f1f5f9;
@@ -16,6 +19,7 @@ Panel de Gestión | SIGED
     }
 
     /* ENCABEZADO */
+
     .dashboard-header {
         background: linear-gradient(
             135deg,
@@ -43,8 +47,21 @@ Panel de Gestión | SIGED
 
     .dashboard-header p {
         color: #d2e3ed;
-        margin-bottom: 0;
+        margin-bottom: 8px;
     }
+
+    .dashboard-perfil {
+        display: inline-block;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.25);
+        border-radius: 30px;
+        padding: 8px 17px;
+        font-size: 13px;
+        margin-top: 15px;
+        color: white;
+    }
+
+    /* BOTÓN CERRAR SESIÓN */
 
     .dashboard-salir {
         background: transparent;
@@ -53,6 +70,7 @@ Panel de Gestión | SIGED
         padding: 11px 20px;
         border-radius: 8px;
         font-weight: 600;
+        cursor: pointer;
         transition: 0.2s;
     }
 
@@ -62,6 +80,7 @@ Panel de Gestión | SIGED
     }
 
     /* CONTENIDO */
+
     .dashboard-contenido {
         padding-top: 45px;
     }
@@ -73,7 +92,8 @@ Panel de Gestión | SIGED
         margin-bottom: 25px;
     }
 
-    /* TARJETAS DE ESTADÍSTICAS */
+    /* TARJETAS */
+
     .dashboard-card {
         background: white;
         border-radius: 15px;
@@ -90,17 +110,17 @@ Panel de Gestión | SIGED
     }
 
     .dashboard-card h3 {
-        font-size: 16px;
-        color: #64748b;
+        font-size: 17px;
+        color: #475569;
         font-weight: 600;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
 
     .dashboard-numero {
         color: #173b59;
         font-size: 46px;
         font-weight: 800;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
 
     .dashboard-enlace {
@@ -115,7 +135,48 @@ Panel de Gestión | SIGED
         text-decoration: underline;
     }
 
+    /* TARJETAS DE FUNCIONALIDADES */
+
+    .dashboard-modulo {
+        background: white;
+        border: 1px solid #e5edf2;
+        border-radius: 15px;
+        padding: 30px;
+        height: 100%;
+    }
+
+    .dashboard-modulo h3 {
+        color: #17324d;
+        font-size: 19px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .dashboard-modulo p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 20px;
+    }
+
+    /* ETIQUETAS */
+
+    .dashboard-estado {
+        display: inline-block;
+        padding: 7px 13px;
+        border-radius: 7px;
+        background: #edf2f7;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .dashboard-seccion {
+        margin-top: 45px;
+    }
+
     /* INFORMACIÓN */
+
     .dashboard-info {
         background: white;
         border: 1px solid #e5edf2;
@@ -138,7 +199,9 @@ Panel de Gestión | SIGED
     }
 
     /* RESPONSIVE */
+
     @media (max-width: 768px) {
+
         .dashboard-header {
             padding: 40px 0;
         }
@@ -151,16 +214,21 @@ Panel de Gestión | SIGED
             margin-top: 20px;
         }
 
-        .dashboard-card {
+        .dashboard-card,
+        .dashboard-modulo {
             padding: 25px;
         }
+
     }
 </style>
 
 
 <div class="dashboard">
 
-    <!-- ENCABEZADO -->
+    <!-- ======================================
+         ENCABEZADO GENERAL
+         ====================================== -->
+
     <section class="dashboard-header">
 
         <div class="container">
@@ -170,12 +238,22 @@ Panel de Gestión | SIGED
                 <div class="col-md-8">
 
                     <div class="dashboard-etiqueta">
-                        SIGED | Área administrativa
+                        SIGED | Sistema de Gestión Municipal
                     </div>
 
-                    <h1>
-                        Panel de Gestión
-                    </h1>
+                    {% if es_administrador %}
+
+                        <h1>Panel de Administración</h1>
+
+                    {% elif es_supervisor %}
+
+                        <h1>Panel de Supervisión</h1>
+
+                    {% elif es_administrativo %}
+
+                        <h1>Panel Administrativo</h1>
+
+                    {% endif %}
 
                     <p>
                         Bienvenido,
@@ -184,9 +262,9 @@ Panel de Gestión | SIGED
                         </strong>
                     </p>
 
-                    <p>
-                        Has iniciado sesión correctamente.
-                    </p>
+                    <div class="dashboard-perfil">
+                        Perfil: {{ perfil }}
+                    </div>
 
                 </div>
 
@@ -194,16 +272,16 @@ Panel de Gestión | SIGED
 
                     <form
                         method="POST"
-                        action="{% url 'logout' %}"
-                    >
+                        action="{% url 'logout' %}">
 
                         {% csrf_token %}
 
                         <button
                             type="submit"
-                            class="dashboard-salir"
-                        >
+                            class="dashboard-salir">
+
                             Cerrar sesión
+
                         </button>
 
                     </form>
@@ -217,89 +295,338 @@ Panel de Gestión | SIGED
     </section>
 
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- ======================================
+         CONTENIDO PRINCIPAL
+         ====================================== -->
+
     <section class="container dashboard-contenido">
 
-        <h2 class="dashboard-titulo">
-            Resumen general del sistema
-        </h2>
 
-        <div class="row g-4">
+        <!-- ==================================
+             DASHBOARD ADMINISTRADOR
+             ================================== -->
 
-            <!-- DELEGACIONES -->
-            <div class="col-md-6">
+        {% if es_administrador %}
 
-                <div class="dashboard-card">
-
-                    <h3>
-                        Delegaciones registradas
-                    </h3>
-
-                    <div class="dashboard-numero">
-                        {{ total_delegaciones }}
-                    </div>
-
-                    <a
-                        href="{% url 'inicio_delegaciones' %}"
-                        class="dashboard-enlace"
-                    >
-                        Ver delegaciones &rarr;
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- FUNCIONARIOS -->
-            <div class="col-md-6">
-
-                <div class="dashboard-card">
-
-                    <h3>
-                        Funcionarios registrados
-                    </h3>
-
-                    <div class="dashboard-numero">
-                        {{ total_funcionarios }}
-                    </div>
-
-                    <a
-                        href="{% url 'inicio_funcionarios' %}"
-                        class="dashboard-enlace"
-                    >
-                        Ver funcionarios &rarr;
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- INFORMACIÓN -->
-        <div class="dashboard-info">
-
-            <h2>
-                Sistema de Gestión Municipal
+            <h2 class="dashboard-titulo">
+                Resumen general del sistema
             </h2>
 
-            <p>
-                Desde SIGED podrás consultar la
-                información de las delegaciones
-                municipales y los funcionarios
-                asociados a cada una de ellas.
-            </p>
+            <div class="row g-4">
 
-            <p>
-                Próximamente este panel tendrá
-                funcionalidades diferenciadas
-                según los perfiles Administrador,
-                Supervisor y Administrativo.
-            </p>
+                <!-- DELEGACIONES -->
 
-        </div>
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Delegaciones registradas
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_delegaciones }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_delegaciones' %}"
+                            class="dashboard-enlace">
+
+                            Ver delegaciones &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FUNCIONARIOS -->
+
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Funcionarios registrados
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_funcionarios }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_funcionarios' %}"
+                            class="dashboard-enlace">
+
+                            Ver funcionarios &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MÓDULOS DEL ADMINISTRADOR -->
+
+            <div class="dashboard-seccion">
+
+                <h2 class="dashboard-titulo">
+                    Administración del sistema
+                </h2>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="dashboard-modulo">
+
+                            <h3>
+                                Gestión de usuarios
+                            </h3>
+
+                            <p>
+                                Administración de usuarios,
+                                asignación de perfiles y
+                                configuración de permisos.
+                            </p>
+
+                            <span class="dashboard-estado">
+                                Próximamente
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-6">
+
+                        <div class="dashboard-modulo">
+
+                            <h3>
+                                Gestión de operaciones
+                            </h3>
+
+                            <p>
+                                Administración de mantenedores,
+                                transacciones y seguimiento
+                                de las delegaciones municipales.
+                            </p>
+
+                            <span class="dashboard-estado">
+                                Próximamente
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        <!-- ==================================
+             DASHBOARD SUPERVISOR
+             ================================== -->
+
+        {% elif es_supervisor %}
+
+            <h2 class="dashboard-titulo">
+                Resumen operacional
+            </h2>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Delegaciones bajo seguimiento
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_delegaciones }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_delegaciones' %}"
+                            class="dashboard-enlace">
+
+                            Consultar delegaciones &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Funcionarios registrados
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_funcionarios }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_funcionarios' %}"
+                            class="dashboard-enlace">
+
+                            Consultar funcionarios &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-info">
+
+                <h2>
+                    Área de Supervisión
+                </h2>
+
+                <p>
+                    Desde este panel podrás consultar
+                    información operacional de las
+                    delegaciones municipales y sus
+                    funcionarios asociados.
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-seccion">
+
+                <h2 class="dashboard-titulo">
+                    Herramientas de supervisión
+                </h2>
+
+                <div class="row g-4">
+
+                    <div class="col-md-6">
+
+                        <div class="dashboard-modulo">
+
+                            <h3>
+                                Seguimiento de operaciones
+                            </h3>
+
+                            <p>
+                                Revisión de actividades,
+                                avances y operaciones
+                                municipales autorizadas.
+                            </p>
+
+                            <span class="dashboard-estado">
+                                Próximamente
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        <!-- ==================================
+             DASHBOARD ADMINISTRATIVO
+             ================================== -->
+
+        {% elif es_administrativo %}
+
+            <h2 class="dashboard-titulo">
+                Panel de consultas
+            </h2>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Delegaciones disponibles
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_delegaciones }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_delegaciones' %}"
+                            class="dashboard-enlace">
+
+                            Consultar información &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <div class="dashboard-card">
+
+                        <h3>
+                            Funcionarios registrados
+                        </h3>
+
+                        <div class="dashboard-numero">
+                            {{ total_funcionarios }}
+                        </div>
+
+                        <a
+                            href="{% url 'inicio_funcionarios' %}"
+                            class="dashboard-enlace">
+
+                            Consultar información &rarr;
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-info">
+
+                <h2>
+                    Área Administrativa
+                </h2>
+
+                <p>
+                    Bienvenido al área administrativa
+                    de SIGED. Desde aquí podrás
+                    consultar información municipal
+                    y acceder a las funcionalidades
+                    asignadas a tu perfil.
+                </p>
+
+            </div>
+
+        {% endif %}
+
 
     </section>
 
