@@ -1,4 +1,3 @@
-
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -179,13 +178,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # EVA 3 - AUTENTICACIÓN
 # =========================================================
 
-# URL para iniciar sesión
 LOGIN_URL = 'login'
 
-# Página a la que se dirige al iniciar sesión
 LOGIN_REDIRECT_URL = 'panel_principal'
 
-# Página a la que se dirige al cerrar sesión
 LOGOUT_REDIRECT_URL = 'login'
 
 
