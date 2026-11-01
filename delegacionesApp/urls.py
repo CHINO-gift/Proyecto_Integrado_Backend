@@ -1,7 +1,58 @@
+
 from django.urls import path
 from . import views
 
+
+# =========================================================
+# SIGED EVA 3 - RUTAS DE DELEGACIONES
+# =========================================================
+
 urlpatterns = [
-    path('', views.inicio, name='inicio_delegaciones'),
-    path('detalle/<str:nombre>/', views.detalle, name='detalle_delegacion'),
+
+    # =====================================================
+    # CONSULTAR DELEGACIONES
+    # =====================================================
+
+    path(
+        "",
+        views.inicio,
+        name="inicio_delegaciones"
+    ),
+
+    path(
+        "detalle/<str:nombre>/",
+        views.detalle,
+        name="detalle_delegacion"
+    ),
+
+    # =====================================================
+    # AGREGAR DELEGACION
+    # =====================================================
+
+    path(
+        "crear/",
+        views.crear_delegacion,
+        name="crear_delegacion"
+    ),
+
+    # =====================================================
+    # MODIFICAR DELEGACION
+    # =====================================================
+
+    path(
+        "editar/<int:pk>/",
+        views.editar_delegacion,
+        name="editar_delegacion"
+    ),
+
+    # =====================================================
+    # ELIMINAR DELEGACION
+    # =====================================================
+
+    path(
+        "eliminar/<int:pk>/",
+        views.eliminar_delegacion,
+        name="eliminar_delegacion"
+    ),
+
 ]
