@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
@@ -7,6 +8,13 @@ Funcionarios | SIGED
 
 
 {% block contenido %}
+
+<!-- ================================================= -->
+<!-- SIGED EVA 3 - GESTION DE FUNCIONARIOS             -->
+<!-- ================================================= -->
+
+
+<!-- ENCABEZADO -->
 
 <section class="hero-siged">
 
@@ -21,8 +29,9 @@ Funcionarios | SIGED
                 </h1>
 
                 <p>
-                    Visualización de metas, avances y cumplimiento
-                    de los funcionarios registrados en el sistema.
+                    Administración de funcionarios,
+                    metas, avances y cumplimiento
+                    de las delegaciones municipales.
                 </p>
 
             </div>
@@ -44,9 +53,15 @@ Funcionarios | SIGED
 </section>
 
 
+<!-- ================================================= -->
+<!-- LISTADO Y OPERACIONES CRUD                        -->
+<!-- ================================================= -->
+
 <section class="seccion-delegaciones">
 
     <div class="container">
+
+        <!-- TITULO -->
 
         <div class="mb-4">
 
@@ -55,65 +70,85 @@ Funcionarios | SIGED
             </h2>
 
             <p class="descripcion-seccion">
-                Consulta el estado y avance de cada funcionario.
+                Consulta y administra los funcionarios
+                registrados en el sistema SIGED.
             </p>
 
         </div>
 
 
-        <!-- CONTROLES VISUALES CRUD -->
+        <!-- BUSCADOR Y BOTON AGREGAR -->
+
         <div class="card shadow-sm border-0 mb-4">
 
-            <div class="card-body">
+            <div class="card-body p-4">
 
                 <div class="row g-3 align-items-center">
 
-                    <div class="col-12 col-lg-5">
+                    <!-- FORMULARIO DE BUSQUEDA -->
 
-                        <div class="input-group">
+                    <div class="col-12 col-lg-7">
 
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Buscar funcionario...">
+                        <form
+                            method="GET"
+                            action="{% url 'inicio_funcionarios' %}"
+                            role="search">
 
-                            <button
-                                type="button"
-                                class="btn btn-primary">
+                            <div class="input-group">
 
-                                Buscar
+                                <input
+                                    type="search"
+                                    name="q"
+                                    class="form-control"
+                                    placeholder="Buscar por nombre, cargo o delegación..."
+                                    aria-label="Buscar funcionarios"
+                                    value="{{ busqueda }}">
 
-                            </button>
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary">
 
-                        </div>
+                                    Buscar
+
+                                </button>
+
+                            </div>
+
+                        </form>
 
                     </div>
 
 
-                    <div class="col-12 col-lg-7">
+                    <!-- BOTONES DE ACCION -->
+
+                    <div class="col-12 col-lg-5">
 
                         <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
 
-                            <a href="#"
-                               class="btn btn-success">
+                            {% if busqueda %}
 
-                                Agregar
+                            <a
+                                href="{% url 'inicio_funcionarios' %}"
+                                class="btn btn-outline-secondary">
 
-                            </a>
-
-                            <a href="#"
-                               class="btn btn-warning">
-
-                                Modificar
+                                Limpiar búsqueda
 
                             </a>
 
-                            <a href="#"
-                               class="btn btn-danger">
+                            {% endif %}
 
-                                Eliminar
+
+                            {% if perms.funcionariosApp.add_funcionario %}
+
+                            <a
+                                href="{% url 'crear_funcionario' %}"
+                                class="btn btn-success">
+
+                                + Agregar funcionario
 
                             </a>
+
+                            {% endif %}
 
                         </div>
 
@@ -126,7 +161,31 @@ Funcionarios | SIGED
         </div>
 
 
-        <!-- LISTADO DE FUNCIONARIOS -->
+        <!-- INFORMACION DE BUSQUEDA -->
+
+        {% if busqueda %}
+
+        <div class="alert alert-info mb-4">
+
+            Resultados de búsqueda para:
+
+            <strong>
+                {{ busqueda }}
+            </strong>
+
+            <span class="ms-2">
+                ({{ funcionarios|length }} encontrados)
+            </span>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- TARJETAS DE FUNCIONARIOS                          -->
+        <!-- ================================================= -->
+
         <div class="row g-4">
 
             {% for funcionario in funcionarios %}
@@ -135,26 +194,88 @@ Funcionarios | SIGED
 
                 <div class="card shadow-sm border-0 h-100">
 
-                    <div class="card-body p-4">
+                    <div class="card-body p-4 d-flex flex-column">
 
-                        <h4 class="fw-bold">
+                        <!-- NOMBRE -->
+
+                        <h4 class="fw-bold mb-2">
+
                             {{ funcionario.nombre }}
+
                         </h4>
 
+
+                        <!-- CARGO -->
+
                         <p class="text-muted mb-1">
+
+                            <strong>Cargo:</strong>
+
                             {{ funcionario.cargo }}
+
                         </p>
 
-                        <p class="text-muted">
-                            Delegación: {{ funcionario.delegacion }}
+
+                        <!-- DELEGACION -->
+
+                        <p class="text-muted mb-3">
+
+                            <strong>Delegación:</strong>
+
+                            {{ funcionario.delegacion.nombre }}
+
                         </p>
 
+
+                        <!-- META Y AVANCE -->
+
+                        <div class="row g-2 mb-3">
+
+                            <div class="col-6">
+
+                                <div class="border rounded p-2">
+
+                                    <small class="text-muted d-block">
+                                        Meta
+                                    </small>
+
+                                    <strong>
+                                        {{ funcionario.meta }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6">
+
+                                <div class="border rounded p-2">
+
+                                    <small class="text-muted d-block">
+                                        Avance
+                                    </small>
+
+                                    <strong>
+                                        {{ funcionario.avance }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PORCENTAJE DE CUMPLIMIENTO -->
 
                         <div class="mb-3">
 
                             <div class="d-flex justify-content-between">
 
-                                <span>Cumplimiento</span>
+                                <span>
+                                    Cumplimiento
+                                </span>
 
                                 <strong>
                                     {{ funcionario.porcentaje }}%
@@ -168,7 +289,10 @@ Funcionarios | SIGED
                                 <div
                                     class="progress-bar bg-{{ funcionario.clase_estado }}"
                                     role="progressbar"
-                                    style="width: {{ funcionario.porcentaje }}%;">
+                                    style="width: {{ funcionario.porcentaje }}%;"
+                                    aria-valuenow="{{ funcionario.porcentaje }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100">
 
                                 </div>
 
@@ -177,24 +301,82 @@ Funcionarios | SIGED
                         </div>
 
 
-                        <p>
+                        <!-- ESTADO -->
+
+                        <p class="mb-4">
 
                             Estado:
 
-                            <span class="badge bg-{{ funcionario.clase_estado }}">
+                            <span
+                                class="badge bg-{{ funcionario.clase_estado }}">
+
                                 {{ funcionario.estado }}
+
                             </span>
 
                         </p>
 
 
-                        <a
-                            href="{% url 'detalle_funcionario' funcionario.id %}"
-                            class="btn-siged">
+                        <!-- ================================================= -->
+                        <!-- ACCIONES POR FUNCIONARIO                         -->
+                        <!-- ================================================= -->
 
-                            Ver funcionario
+                        <div class="mt-auto">
 
-                        </a>
+                            <!-- VER DETALLE -->
+
+                            <a
+                                href="{% url 'detalle_funcionario' funcionario.id %}"
+                                class="btn-siged d-inline-block mb-3">
+
+                                Ver funcionario
+
+                            </a>
+
+
+                            <div class="d-flex gap-2 flex-wrap">
+
+                                <!-- MODIFICAR -->
+
+                                {% if perms.funcionariosApp.change_funcionario %}
+
+                                <a
+                                    href="{% url 'editar_funcionario' funcionario.id %}"
+                                    class="btn btn-warning btn-sm">
+
+                                    Modificar
+
+                                </a>
+
+                                {% endif %}
+
+
+                                <!-- ELIMINAR -->
+
+                                {% if perms.funcionariosApp.delete_funcionario %}
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'eliminar_funcionario' funcionario.id %}"
+                                    onsubmit="return confirm('¿Estás seguro de eliminar este funcionario? Esta acción no se puede deshacer.');">
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger btn-sm">
+
+                                        Eliminar
+
+                                    </button>
+
+                                </form>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -202,12 +384,27 @@ Funcionarios | SIGED
 
             </div>
 
+
             {% empty %}
+
+            <!-- SIN RESULTADOS -->
 
             <div class="col-12">
 
                 <div class="alert alert-info">
-                    No existen funcionarios registrados.
+
+                    {% if busqueda %}
+
+                    No se encontraron funcionarios
+                    que coincidan con la búsqueda.
+
+                    {% else %}
+
+                    No existen funcionarios registrados
+                    en el sistema.
+
+                    {% endif %}
+
                 </div>
 
             </div>
