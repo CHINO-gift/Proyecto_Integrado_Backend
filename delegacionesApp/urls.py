@@ -1,6 +1,8 @@
 
 from django.urls import path
+
 from . import views
+from . import views_operacion
 
 
 # =========================================================
@@ -33,6 +35,24 @@ urlpatterns = [
         "crear/",
         views.crear_delegacion,
         name="crear_delegacion"
+    ),
+
+    # =====================================================
+    # EVA 3 - REGISTRO CONJUNTO
+    # DELEGACION + FUNCIONARIO INICIAL
+    # =====================================================
+    #
+    # Esta operacion registra dos entidades
+    # relacionadas mediante transaction.atomic().
+    #
+    # Requiere permisos para crear delegaciones
+    # y funcionarios.
+    # =====================================================
+
+    path(
+        "registro-conjunto/",
+        views_operacion.registrar_delegacion_con_funcionario,
+        name="registro_conjunto"
     ),
 
     # =====================================================
