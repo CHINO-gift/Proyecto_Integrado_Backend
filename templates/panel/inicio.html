@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 
 {% block titulo %}
@@ -8,7 +9,7 @@ Panel de {{ perfil }} | SIGED
 
 <style>
     /* ======================================
-       EVA 3 - DASHBOARDS POR PERFIL
+       SIGED EVA 3 - DASHBOARDS POR PERFIL
        ====================================== */
 
     .dashboard {
@@ -16,8 +17,6 @@ Panel de {{ perfil }} | SIGED
         background: #f1f5f9;
         padding-bottom: 70px;
     }
-
-    /* ENCABEZADO */
 
     .dashboard-header {
         background: linear-gradient(
@@ -60,7 +59,7 @@ Panel de {{ perfil }} | SIGED
         color: white;
     }
 
-    /* BOTÓN CERRAR SESIÓN */
+    /* CERRAR SESION */
 
     .dashboard-salir {
         background: transparent;
@@ -91,7 +90,7 @@ Panel de {{ perfil }} | SIGED
         margin-bottom: 25px;
     }
 
-    /* TARJETAS */
+    /* TARJETAS DE RESUMEN */
 
     .dashboard-card {
         background: white;
@@ -134,7 +133,7 @@ Panel de {{ perfil }} | SIGED
         text-decoration: underline;
     }
 
-    /* TARJETAS DE FUNCIONALIDADES */
+    /* MODULOS */
 
     .dashboard-modulo {
         background: white;
@@ -158,23 +157,18 @@ Panel de {{ perfil }} | SIGED
         margin-bottom: 20px;
     }
 
-    /* ETIQUETAS */
-
-    .dashboard-estado {
-        display: inline-block;
-        padding: 7px 13px;
-        border-radius: 7px;
-        background: #edf2f7;
-        color: #64748b;
-        font-size: 12px;
-        font-weight: 600;
+    .dashboard-acciones {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 13px;
     }
 
     .dashboard-seccion {
         margin-top: 45px;
     }
 
-    /* INFORMACIÓN */
+    /* INFORMACION */
 
     .dashboard-info {
         background: white;
@@ -200,7 +194,6 @@ Panel de {{ perfil }} | SIGED
     /* RESPONSIVE */
 
     @media (max-width: 768px) {
-
         .dashboard-header {
             padding: 40px 0;
         }
@@ -217,7 +210,6 @@ Panel de {{ perfil }} | SIGED
         .dashboard-modulo {
             padding: 25px;
         }
-
     }
 </style>
 
@@ -229,9 +221,7 @@ Panel de {{ perfil }} | SIGED
          ====================================== -->
 
     <section class="dashboard-header">
-
         <div class="container">
-
             <div class="row align-items-center">
 
                 <div class="col-md-8">
@@ -241,17 +231,11 @@ Panel de {{ perfil }} | SIGED
                     </div>
 
                     {% if es_administrador %}
-
                         <h1>Panel de Administración</h1>
-
                     {% elif es_supervisor %}
-
                         <h1>Panel de Supervisión</h1>
-
                     {% elif es_administrativo %}
-
                         <h1>Panel Administrativo</h1>
-
                     {% endif %}
 
                     <p>
@@ -288,9 +272,7 @@ Panel de {{ perfil }} | SIGED
                 </div>
 
             </div>
-
         </div>
-
     </section>
 
 
@@ -300,9 +282,8 @@ Panel de {{ perfil }} | SIGED
 
     <section class="container dashboard-contenido">
 
-
         <!-- ==================================
-             DASHBOARD ADMINISTRADOR
+             ADMINISTRADOR
              ================================== -->
 
         {% if es_administrador %}
@@ -313,63 +294,50 @@ Panel de {{ perfil }} | SIGED
 
             <div class="row g-4">
 
-                <!-- DELEGACIONES -->
-
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Delegaciones registradas
-                        </h3>
+                        <h3>Delegaciones registradas</h3>
 
                         <div class="dashboard-numero">
                             {{ total_delegaciones }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_delegaciones' %}"
-                            class="dashboard-enlace">
-
-                            Ver delegaciones &rarr;
-
-                        </a>
+                        {% if perms.delegacionesApp.view_delegacion %}
+                            <a
+                                href="{% url 'inicio_delegaciones' %}"
+                                class="dashboard-enlace">
+                                Ver delegaciones &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
-
-                <!-- FUNCIONARIOS -->
-
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Funcionarios registrados
-                        </h3>
+                        <h3>Funcionarios registrados</h3>
 
                         <div class="dashboard-numero">
                             {{ total_funcionarios }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_funcionarios' %}"
-                            class="dashboard-enlace">
-
-                            Ver funcionarios &rarr;
-
-                        </a>
+                        {% if perms.funcionariosApp.view_funcionario %}
+                            <a
+                                href="{% url 'inicio_funcionarios' %}"
+                                class="dashboard-enlace">
+                                Ver funcionarios &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
             </div>
 
 
-            <!-- MÓDULOS DEL ADMINISTRADOR -->
+            <!-- ADMINISTRACION -->
 
             <div class="dashboard-seccion">
 
@@ -380,12 +348,9 @@ Panel de {{ perfil }} | SIGED
                 <div class="row g-4">
 
                     <div class="col-md-6">
-
                         <div class="dashboard-modulo">
 
-                            <h3>
-                                Gestión de usuarios
-                            </h3>
+                            <h3>Gestión de usuarios</h3>
 
                             <p>
                                 Administración de usuarios,
@@ -393,36 +358,58 @@ Panel de {{ perfil }} | SIGED
                                 configuración de permisos.
                             </p>
 
-                            <a href="{% url 'inicio_usuarios' %}"
-                               class="dashboard-enlace">
+                            <a
+                                href="{% url 'inicio_usuarios' %}"
+                                class="dashboard-enlace">
                                 Administrar usuarios &rarr;
                             </a>
 
                         </div>
-
                     </div>
 
 
                     <div class="col-md-6">
-
                         <div class="dashboard-modulo">
 
-                            <h3>
-                                Gestión de operaciones
-                            </h3>
+                            <h3>Gestión de operaciones</h3>
 
                             <p>
-                                Administración de mantenedores,
-                                transacciones y seguimiento
-                                de las delegaciones municipales.
+                                Accede a los mantenedores de
+                                delegaciones y funcionarios.
+                                También puedes registrar una
+                                delegación junto con su
+                                funcionario inicial.
                             </p>
 
-                            <span class="dashboard-estado">
-                                Próximamente
-                            </span>
+                            <div class="dashboard-acciones">
+
+                                {% if perms.delegacionesApp.view_delegacion %}
+                                    <a
+                                        href="{% url 'inicio_delegaciones' %}"
+                                        class="dashboard-enlace">
+                                        Gestionar delegaciones &rarr;
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.funcionariosApp.view_funcionario %}
+                                    <a
+                                        href="{% url 'inicio_funcionarios' %}"
+                                        class="dashboard-enlace">
+                                        Gestionar funcionarios &rarr;
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.delegacionesApp.add_delegacion and perms.funcionariosApp.add_funcionario %}
+                                    <a
+                                        href="{% url 'crear_delegacion' %}"
+                                        class="dashboard-enlace">
+                                        Registrar delegación y funcionario &rarr;
+                                    </a>
+                                {% endif %}
+
+                            </div>
 
                         </div>
-
                     </div>
 
                 </div>
@@ -431,7 +418,7 @@ Panel de {{ perfil }} | SIGED
 
 
         <!-- ==================================
-             DASHBOARD SUPERVISOR
+             SUPERVISOR
              ================================== -->
 
         {% elif es_supervisor %}
@@ -443,52 +430,43 @@ Panel de {{ perfil }} | SIGED
             <div class="row g-4">
 
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Delegaciones bajo seguimiento
-                        </h3>
+                        <h3>Delegaciones bajo seguimiento</h3>
 
                         <div class="dashboard-numero">
                             {{ total_delegaciones }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_delegaciones' %}"
-                            class="dashboard-enlace">
-
-                            Consultar delegaciones &rarr;
-
-                        </a>
+                        {% if perms.delegacionesApp.view_delegacion %}
+                            <a
+                                href="{% url 'inicio_delegaciones' %}"
+                                class="dashboard-enlace">
+                                Consultar delegaciones &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
-
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Funcionarios registrados
-                        </h3>
+                        <h3>Funcionarios registrados</h3>
 
                         <div class="dashboard-numero">
                             {{ total_funcionarios }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_funcionarios' %}"
-                            class="dashboard-enlace">
-
-                            Consultar funcionarios &rarr;
-
-                        </a>
+                        {% if perms.funcionariosApp.view_funcionario %}
+                            <a
+                                href="{% url 'inicio_funcionarios' %}"
+                                class="dashboard-enlace">
+                                Consultar funcionarios &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
             </div>
@@ -496,19 +474,20 @@ Panel de {{ perfil }} | SIGED
 
             <div class="dashboard-info">
 
-                <h2>
-                    Área de Supervisión
-                </h2>
+                <h2>Área de Supervisión</h2>
 
                 <p>
-                    Desde este panel podrás consultar
-                    información operacional de las
-                    delegaciones municipales y sus
-                    funcionarios asociados.
+                    Desde este panel puedes consultar
+                    información operacional, registrar
+                    nuevas delegaciones y funcionarios,
+                    y modificar sus datos de acuerdo
+                    con los permisos asignados.
                 </p>
 
             </div>
 
+
+            <!-- HERRAMIENTAS DEL SUPERVISOR -->
 
             <div class="dashboard-seccion">
 
@@ -519,25 +498,68 @@ Panel de {{ perfil }} | SIGED
                 <div class="row g-4">
 
                     <div class="col-md-6">
-
                         <div class="dashboard-modulo">
 
-                            <h3>
-                                Seguimiento de operaciones
-                            </h3>
+                            <h3>Operaciones autorizadas</h3>
 
                             <p>
-                                Revisión de actividades,
-                                avances y operaciones
-                                municipales autorizadas.
+                                Gestiona las delegaciones
+                                y los funcionarios municipales
+                                mediante los formularios
+                                autorizados para tu perfil.
                             </p>
 
-                            <span class="dashboard-estado">
-                                Próximamente
-                            </span>
+                            <div class="dashboard-acciones">
+
+                                {% if perms.delegacionesApp.view_delegacion %}
+                                    <a
+                                        href="{% url 'inicio_delegaciones' %}"
+                                        class="dashboard-enlace">
+                                        Revisar delegaciones &rarr;
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.funcionariosApp.view_funcionario %}
+                                    <a
+                                        href="{% url 'inicio_funcionarios' %}"
+                                        class="dashboard-enlace">
+                                        Revisar funcionarios &rarr;
+                                    </a>
+                                {% endif %}
+
+                                {% if perms.delegacionesApp.add_delegacion and perms.funcionariosApp.add_funcionario %}
+                                    <a
+                                        href="{% url 'crear_delegacion' %}"
+                                        class="dashboard-enlace">
+                                        Registrar delegación y funcionario &rarr;
+                                    </a>
+                                {% endif %}
+
+                            </div>
 
                         </div>
+                    </div>
 
+                    <div class="col-md-6">
+                        <div class="dashboard-modulo">
+
+                            <h3>Registro de funcionarios</h3>
+
+                            <p>
+                                Incorpora nuevos funcionarios
+                                y asígnalos a las delegaciones
+                                municipales existentes.
+                            </p>
+
+                            {% if perms.funcionariosApp.add_funcionario %}
+                                <a
+                                    href="{% url 'crear_funcionario' %}"
+                                    class="dashboard-enlace">
+                                    Agregar funcionario &rarr;
+                                </a>
+                            {% endif %}
+
+                        </div>
                     </div>
 
                 </div>
@@ -546,7 +568,7 @@ Panel de {{ perfil }} | SIGED
 
 
         <!-- ==================================
-             DASHBOARD ADMINISTRATIVO
+             ADMINISTRATIVO
              ================================== -->
 
         {% elif es_administrativo %}
@@ -558,52 +580,43 @@ Panel de {{ perfil }} | SIGED
             <div class="row g-4">
 
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Delegaciones disponibles
-                        </h3>
+                        <h3>Delegaciones disponibles</h3>
 
                         <div class="dashboard-numero">
                             {{ total_delegaciones }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_delegaciones' %}"
-                            class="dashboard-enlace">
-
-                            Consultar información &rarr;
-
-                        </a>
+                        {% if perms.delegacionesApp.view_delegacion %}
+                            <a
+                                href="{% url 'inicio_delegaciones' %}"
+                                class="dashboard-enlace">
+                                Consultar información &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
-
                 <div class="col-md-6">
-
                     <div class="dashboard-card">
 
-                        <h3>
-                            Funcionarios registrados
-                        </h3>
+                        <h3>Funcionarios registrados</h3>
 
                         <div class="dashboard-numero">
                             {{ total_funcionarios }}
                         </div>
 
-                        <a
-                            href="{% url 'inicio_funcionarios' %}"
-                            class="dashboard-enlace">
-
-                            Consultar información &rarr;
-
-                        </a>
+                        {% if perms.funcionariosApp.view_funcionario %}
+                            <a
+                                href="{% url 'inicio_funcionarios' %}"
+                                class="dashboard-enlace">
+                                Consultar información &rarr;
+                            </a>
+                        {% endif %}
 
                     </div>
-
                 </div>
 
             </div>
@@ -611,22 +624,19 @@ Panel de {{ perfil }} | SIGED
 
             <div class="dashboard-info">
 
-                <h2>
-                    Área Administrativa
-                </h2>
+                <h2>Área Administrativa</h2>
 
                 <p>
                     Bienvenido al área administrativa
-                    de SIGED. Desde aquí podrás
-                    consultar información municipal
-                    y acceder a las funcionalidades
+                    de SIGED. Desde aquí puedes consultar
+                    información municipal y acceder
+                    únicamente a las funcionalidades
                     asignadas a tu perfil.
                 </p>
 
             </div>
 
         {% endif %}
-
 
     </section>
 

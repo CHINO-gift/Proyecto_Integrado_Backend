@@ -6,21 +6,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>
         {% block titulo %}
-        SIGED
+            SIGED
         {% endblock %}
     </title>
 
     <!-- BOOTSTRAP LOCAL -->
-    <link rel="stylesheet"
-          href="{% static 'css/bootstrap.min.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/bootstrap.min.css' %}">
 
     <!-- CSS ORIGINAL DE SIGED -->
-    <link rel="stylesheet"
-          href="{% static 'css/estilos.css' %}">
+
+    <link
+        rel="stylesheet"
+        href="{% static 'css/estilos.css' %}">
 
 </head>
 
@@ -42,34 +49,37 @@
 
                     <div class="marca-siged">
 
-                        <a href="{% url 'inicio_delegaciones' %}"
-                           class="logo-siged">
-                            SIGED
-                        </a>
+                        {% if user.is_authenticated %}
+
+                            <a
+                                href="{% url 'panel_principal' %}"
+                                class="logo-siged">
+                                SIGED
+                            </a>
+
+                        {% else %}
+
+                            <a
+                                href="{% url 'login' %}"
+                                class="logo-siged">
+                                SIGED
+                            </a>
+
+                        {% endif %}
 
                         <span class="separador"></span>
 
                         <span class="nombre-sistema">
-                            Sistema de Gestión de Delegaciones Municipales
+                            Sistema de Gestión de
+                            Delegaciones Municipales
                         </span>
 
                     </div>
 
-                    <div class="enlaces-superiores">
-
-                        <a href="#">
-                            Municipalidad
-                        </a>
-
-                        <a href="#">
-                            Contacto
-                        </a>
-
-                        <a href="#">
-                            Ayuda
-                        </a>
-
-                    </div>
+                    <!--
+                        Se retiraron los enlaces sin destino:
+                        Municipalidad, Contacto y Ayuda.
+                    -->
 
                 </div>
 
@@ -79,7 +89,7 @@
 
 
         <!-- ===================================== -->
-        <!-- BARRA DE NAVEGACIÓN -->
+        <!-- BARRA DE NAVEGACION -->
         <!-- ===================================== -->
 
         <nav class="barra-principal">
@@ -108,90 +118,95 @@
 
                         <ul class="navbar-nav w-100 align-items-lg-center">
 
-                            <!-- INICIO -->
+                            <!-- ================================= -->
+                            <!-- INICIO / PANEL PRINCIPAL          -->
+                            <!-- ================================= -->
 
                             <li class="nav-item">
 
-                                <a
-                                    class="nav-link"
-                                    href="{% url 'inicio_delegaciones' %}">
+                                {% if user.is_authenticated %}
 
-                                    Inicio
+                                    <a
+                                        class="nav-link"
+                                        href="{% url 'panel_principal' %}">
 
-                                </a>
+                                        Inicio
 
-                            </li>
+                                    </a>
 
+                                {% else %}
 
-                            <!-- DELEGACIONES -->
+                                    <a
+                                        class="nav-link"
+                                        href="{% url 'login' %}">
 
-                            <li class="nav-item">
+                                        Inicio
 
-                                <a
-                                    class="nav-link"
-                                    href="{% url 'inicio_delegaciones' %}">
+                                    </a>
 
-                                    Delegaciones
-
-                                </a>
-
-                            </li>
-
-
-                            <!-- FUNCIONARIOS -->
-
-                            <li class="nav-item">
-
-                                <a
-                                    class="nav-link"
-                                    href="{% url 'inicio_funcionarios' %}">
-
-                                    Funcionarios
-
-                                </a>
-
-                            </li>
-
-
-                            <!-- SEGUIMIENTO -->
-
-                            <li class="nav-item">
-
-                                <a
-                                    class="nav-link"
-                                    href="#">
-
-                                    Seguimiento
-
-                                </a>
-
-                            </li>
-
-
-                            <!-- REPORTES -->
-
-                            <li class="nav-item">
-
-                                <a
-                                    class="nav-link"
-                                    href="#">
-
-                                    Reportes
-
-                                </a>
+                                {% endif %}
 
                             </li>
 
 
                             <!-- ================================= -->
-                            <!-- EVA 3 - AUTENTICACIÓN -->
+                            <!-- DELEGACIONES                      -->
+                            <!-- ================================= -->
+
+                            {% if user.is_authenticated and perms.delegacionesApp.view_delegacion %}
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link"
+                                        href="{% url 'inicio_delegaciones' %}">
+
+                                        Delegaciones
+
+                                    </a>
+
+                                </li>
+
+                            {% endif %}
+
+
+                            <!-- ================================= -->
+                            <!-- FUNCIONARIOS                       -->
+                            <!-- ================================= -->
+
+                            {% if user.is_authenticated and perms.funcionariosApp.view_funcionario %}
+
+                                <li class="nav-item">
+
+                                    <a
+                                        class="nav-link"
+                                        href="{% url 'inicio_funcionarios' %}">
+
+                                        Funcionarios
+
+                                    </a>
+
+                                </li>
+
+                            {% endif %}
+
+
+                            <!--
+                                Se retiraron Seguimiento y Reportes
+                                porque no tienen una ruta funcional.
+
+                                Los mantenedores y la transaccion
+                                siguen disponibles en sus paginas.
+                            -->
+
+
+                            <!-- ================================= -->
+                            <!-- EVA 3 - AUTENTICACION             -->
                             <!-- ================================= -->
 
                             <li class="nav-item ms-lg-auto">
 
                                 {% if user.is_authenticated %}
-
-                                    <!-- USUARIO CON SESIÓN -->
 
                                     <a
                                         class="nav-link acceso-sistema"
@@ -202,8 +217,6 @@
                                     </a>
 
                                 {% else %}
-
-                                    <!-- USUARIO SIN SESIÓN -->
 
                                     <a
                                         class="nav-link acceso-sistema"
@@ -244,7 +257,7 @@
 
 
     <!-- ===================================== -->
-    <!-- PIE DE PÁGINA -->
+    <!-- PIE DE PAGINA -->
     <!-- ===================================== -->
 
     <footer class="footer-siged">
@@ -260,7 +273,8 @@
                     </h5>
 
                     <p class="mb-0">
-                        Sistema de Gestión de Delegaciones Municipales
+                        Sistema de Gestión de
+                        Delegaciones Municipales
                     </p>
 
                 </div>
@@ -269,7 +283,8 @@
                 <div class="col-md-6 text-md-end mt-3 mt-md-0">
 
                     <small>
-                        Ilustre Municipalidad de La Serena
+                        Proyecto académico -
+                        INACAP La Serena
                     </small>
 
                 </div>
