@@ -7,102 +7,146 @@ from django.shortcuts import redirect
 from . import views
 
 
-# ==========================================
-# EVA 3 - PÁGINA PRINCIPAL
-# ==========================================
+# =========================================================
+# SIGED EVA 3 - PAGINA PRINCIPAL
+# =========================================================
 
 def inicio(request):
 
-    # Si ya inició sesión, abrir SIGED
+    # Usuario autenticado: abrir dashboard.
     if request.user.is_authenticated:
-        return redirect('panel_principal')
+        return redirect("panel_principal")
 
-    # Si no ha iniciado sesión, mostrar login
-    return redirect('login')
+    # Usuario no autenticado: abrir login.
+    return redirect("login")
 
 
-# ==========================================
-# RUTAS PRINCIPALES DE SIGED
-# ==========================================
+# =========================================================
+# SIGED EVA 3 - RUTAS PRINCIPALES
+# =========================================================
 
 urlpatterns = [
 
-    # ======================================
+    # =====================================================
     # INICIO
-    # ======================================
+    # =====================================================
 
     path(
-        '',
+        "",
         inicio,
-        name='inicio'
+        name="inicio"
     ),
 
-
-    # ======================================
-    # EVA 3 - INICIO DE SESIÓN
-    # ======================================
+    # =====================================================
+    # INICIO DE SESION
+    # =====================================================
 
     path(
-        'acceso/',
+        "acceso/",
         auth_views.LoginView.as_view(
-            template_name='registration/login.html',
+            template_name="registration/login.html",
             redirect_authenticated_user=True,
-            next_page='panel_principal'
+            next_page="panel_principal"
         ),
-        name='login'
+        name="login"
     ),
 
-
-    # ======================================
-    # EVA 3 - CERRAR SESIÓN
-    # ======================================
+    # =====================================================
+    # CERRAR SESION
+    # =====================================================
 
     path(
-        'salir/',
+        "salir/",
         auth_views.LogoutView.as_view(
-            next_page='login'
+            next_page="login"
         ),
-        name='logout'
+        name="logout"
     ),
 
-
-    # ======================================
-    # EVA 3 - DASHBOARD DE SIGED
-    # ======================================
+    # =====================================================
+    # RECUPERACION DE CONTRASENA - SOLICITUD
+    # =====================================================
 
     path(
-        'panel/',
+        "recuperar-contrasena/",
+        auth_views.PasswordResetView.as_view(
+            template_name="registration/password_reset_form.html",
+            email_template_name="registration/password_reset_email.txt",
+            subject_template_name="registration/password_reset_subject.txt"
+        ),
+        name="password_reset"
+    ),
+
+    # =====================================================
+    # RECUPERACION - SOLICITUD ENVIADA
+    # =====================================================
+
+    path(
+        "recuperar-contrasena/enviado/",
+        auth_views.PasswordResetDoneView.as_view(
+            template_name="registration/password_reset_done.html"
+        ),
+        name="password_reset_done"
+    ),
+
+    # =====================================================
+    # RECUPERACION - NUEVA CONTRASENA
+    # =====================================================
+
+    path(
+        "restablecer-contrasena/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="registration/password_reset_confirm.html"
+        ),
+        name="password_reset_confirm"
+    ),
+
+    # =====================================================
+    # RECUPERACION - PROCESO COMPLETADO
+    # =====================================================
+
+    path(
+        "restablecer-contrasena/completado/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="registration/password_reset_complete.html"
+        ),
+        name="password_reset_complete"
+    ),
+
+    # =====================================================
+    # DASHBOARD PRINCIPAL
+    # =====================================================
+
+    path(
+        "panel/",
         views.panel_principal,
-        name='panel_principal'
+        name="panel_principal"
     ),
 
-
-    # ======================================
-    # EVA 2 - DELEGACIONES
-    # ======================================
+    # =====================================================
+    # GESTION DE DELEGACIONES
+    # =====================================================
 
     path(
-        'delegaciones/',
-        include('delegacionesApp.urls')
+        "delegaciones/",
+        include("delegacionesApp.urls")
     ),
 
-
-    # ======================================
-    # EVA 2 - FUNCIONARIOS
-    # ======================================
+    # =====================================================
+    # GESTION DE FUNCIONARIOS
+    # =====================================================
 
     path(
-        'funcionarios/',
-        include('funcionariosApp.urls')
+        "funcionarios/",
+        include("funcionariosApp.urls")
     ),
 
-
-    # ======================================
-    # ADMINISTRACIÓN DJANGO
-    # ======================================
+    # =====================================================
+    # ADMINISTRACION DJANGO
+    # =====================================================
 
     path(
-        'admin/',
+        "admin/",
         admin.site.urls
     ),
 

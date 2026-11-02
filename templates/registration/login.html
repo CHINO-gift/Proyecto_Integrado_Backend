@@ -25,6 +25,7 @@
                 #123954,
                 #21647b
             );
+
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -54,6 +55,7 @@
                 #102a43,
                 #1b526b
             );
+
             padding: 65px 45px;
             color: white;
             display: flex;
@@ -116,6 +118,8 @@
             margin-bottom: 35px;
         }
 
+        /* CAMPOS */
+
         .form-group {
             margin-bottom: 25px;
         }
@@ -147,7 +151,7 @@
             background: white;
         }
 
-        /* BOTÓN */
+        /* BOTON INGRESAR */
 
         .btn-login {
             width: 100%;
@@ -178,6 +182,32 @@
             font-size: 13px;
             line-height: 1.6;
             margin-bottom: 25px;
+        }
+
+        /* RECUPERACION DE CONTRASENA */
+
+        .recuperar-contrasena {
+            margin-top: 22px;
+            text-align: center;
+        }
+
+        .recuperar-contrasena a {
+            color: #21647b;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .recuperar-contrasena a:hover {
+            color: #123954;
+            text-decoration: underline;
+        }
+
+        .recuperar-contrasena a:focus-visible {
+            outline: 2px solid #21647b;
+            outline-offset: 4px;
+            border-radius: 3px;
         }
 
         /* PIE */
@@ -216,6 +246,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -269,6 +300,8 @@
             </p>
 
 
+            <!-- ERRORES DE AUTENTICACION -->
+
             {% if form.errors %}
 
                 <div class="alert-error" role="alert">
@@ -279,17 +312,21 @@
             {% endif %}
 
 
+            <!-- FORMULARIO LOGIN -->
+
             <form method="POST"
                   action="{% url 'login' %}">
 
                 {% csrf_token %}
 
                 {% if next %}
+
                     <input
                         type="hidden"
                         name="next"
                         value="{{ next }}"
                     >
+
                 {% endif %}
 
 
@@ -315,7 +352,7 @@
                 </div>
 
 
-                <!-- CONTRASEÑA -->
+                <!-- CONTRASENA -->
 
                 <div class="form-group">
 
@@ -336,7 +373,7 @@
                 </div>
 
 
-                <!-- BOTÓN INGRESAR -->
+                <!-- BOTON INGRESAR -->
 
                 <button
                     type="submit"
@@ -348,9 +385,24 @@
             </form>
 
 
+            <!-- RECUPERACION DE CONTRASENA -->
+
+            <div class="recuperar-contrasena">
+
+                <a href="{% url 'password_reset' %}">
+                    ¿Olvidaste tu contraseña?
+                </a>
+
+            </div>
+
+
+            <!-- PIE DE PAGINA -->
+
             <div class="footer-login">
+
                 SIGED © 2026
                 Sistema de Gestión Municipal
+
             </div>
 
         </div>
@@ -358,4 +410,5 @@
     </div>
 
 </body>
+
 </html>
