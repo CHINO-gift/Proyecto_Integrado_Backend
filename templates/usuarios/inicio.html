@@ -1,0 +1,594 @@
+
+{% extends 'base.html' %}
+
+{% block titulo %}
+Gestión de Usuarios | SIGED
+{% endblock %}
+
+
+{% block contenido %}
+
+<!-- ================================================= -->
+<!-- SIGED EVA 3 - GESTION DE USUARIOS Y PERFILES      -->
+<!-- ================================================= -->
+
+<style>
+
+    .usuarios-seccion {
+        background: #f1f5f9;
+        min-height: 80vh;
+        padding: 50px 0 80px;
+    }
+
+    .usuarios-titulo {
+        color: #17324d;
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .usuarios-descripcion {
+        color: #64748b;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .usuarios-card {
+        border: 1px solid #e5edf2;
+        border-radius: 15px;
+        background: white;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+    }
+
+    .usuarios-tabla {
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .usuarios-tabla thead {
+        background: #173b59;
+    }
+
+    .usuarios-tabla thead th {
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 18px;
+        white-space: nowrap;
+    }
+
+    .usuarios-tabla tbody td {
+        padding: 18px;
+        vertical-align: middle;
+        font-size: 14px;
+        color: #334155;
+    }
+
+    .usuarios-tabla tbody tr:hover {
+        background: #f8fafc;
+    }
+
+    .usuario-nombre {
+        color: #17324d;
+        font-weight: 700;
+    }
+
+    .usuario-correo {
+        color: #64748b;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-badge {
+        display: inline-block;
+        border-radius: 7px;
+        padding: 7px 12px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .perfil-administrador {
+        background: #e9ecff;
+        color: #4338ca;
+    }
+
+    .perfil-supervisor {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .perfil-administrativo {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .perfil-superusuario {
+        background: #fce7f3;
+        color: #9d174d;
+    }
+
+    .perfil-sin-asignar {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .usuarios-resumen {
+        background: white;
+        border: 1px solid #e5edf2;
+        border-radius: 12px;
+        padding: 20px 25px;
+    }
+
+    .usuarios-resumen strong {
+        color: #17324d;
+        font-size: 26px;
+    }
+
+    .usuarios-ayuda {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+
+        .usuarios-titulo {
+            font-size: 25px;
+        }
+
+        .usuarios-seccion {
+            padding-top: 35px;
+        }
+
+    }
+
+</style>
+
+
+<section class="usuarios-seccion">
+
+    <div class="container">
+
+        <!-- ========================================= -->
+        <!-- ENCABEZADO                               -->
+        <!-- ========================================= -->
+
+        <div class="row align-items-center mb-4">
+
+            <div class="col-lg-8">
+
+                <h1 class="usuarios-titulo">
+                    Gestión de Usuarios
+                </h1>
+
+                <p class="usuarios-descripcion">
+                    Administración de cuentas,
+                    asignación de perfiles y
+                    control de acceso al sistema SIGED.
+                </p>
+
+            </div>
+
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+
+                <a
+                    href="{% url 'panel_principal' %}"
+                    class="btn btn-outline-secondary">
+
+                    Volver al panel
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- MENSAJES DEL SISTEMA                     -->
+        <!-- ========================================= -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show"
+                    role="alert">
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Cerrar">
+                    </button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <!-- ========================================= -->
+        <!-- RESUMEN DE USUARIOS                      -->
+        <!-- ========================================= -->
+
+        <div class="usuarios-resumen mb-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-7">
+
+                    <small class="text-muted d-block mb-1">
+                        Usuarios encontrados
+                    </small>
+
+                    <strong>
+                        {{ total_usuarios }}
+                    </strong>
+
+                </div>
+
+                <div class="col-md-5 text-md-end mt-3 mt-md-0">
+
+                    <span class="badge bg-primary">
+                        Módulo de Administración
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- BUSCADOR Y ACCIONES                      -->
+        <!-- ========================================= -->
+
+        <div class="usuarios-card mb-4">
+
+            <div class="card-body p-4">
+
+                <div class="row g-3 align-items-center">
+
+                    <!-- BUSCADOR -->
+
+                    <div class="col-12 col-lg-8">
+
+                        <form
+                            method="GET"
+                            action="{% url 'inicio_usuarios' %}"
+                            role="search">
+
+                            <div class="input-group">
+
+                                <input
+                                    type="search"
+                                    name="q"
+                                    class="form-control"
+                                    placeholder="Buscar por usuario, nombre o correo..."
+                                    aria-label="Buscar usuarios"
+                                    value="{{ busqueda }}">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary">
+
+                                    Buscar
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- AGREGAR USUARIO -->
+
+                    <div class="col-12 col-lg-4">
+
+                        <div class="d-flex gap-2 flex-wrap justify-content-lg-end">
+
+                            {% if busqueda %}
+
+                                <a
+                                    href="{% url 'inicio_usuarios' %}"
+                                    class="btn btn-outline-secondary">
+
+                                    Limpiar
+
+                                </a>
+
+                            {% endif %}
+
+                            <a
+                                href="{% url 'crear_usuario' %}"
+                                class="btn btn-success">
+
+                                + Agregar usuario
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- LISTADO DE USUARIOS                      -->
+        <!-- ========================================= -->
+
+        <div class="usuarios-card">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover usuarios-tabla">
+
+                    <thead>
+
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Nombre completo</th>
+                            <th>Correo electrónico</th>
+                            <th>Perfil</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for usuario in usuarios %}
+
+                            <tr>
+
+                                <!-- USUARIO -->
+
+                                <td>
+
+                                    <span class="usuario-nombre">
+                                        {{ usuario.username }}
+                                    </span>
+
+                                    {% if usuario.is_superuser %}
+
+                                        <div class="small text-muted mt-1">
+                                            Cuenta protegida
+                                        </div>
+
+                                    {% elif usuario.pk == user.pk %}
+
+                                        <div class="small text-muted mt-1">
+                                            Tu cuenta
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- NOMBRE COMPLETO -->
+
+                                <td>
+
+                                    {% if usuario.get_full_name %}
+
+                                        {{ usuario.get_full_name }}
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            Sin nombre registrado
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- CORREO -->
+
+                                <td>
+
+                                    {% if usuario.email %}
+
+                                        <span class="usuario-correo">
+                                            {{ usuario.email }}
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="text-muted">
+                                            Sin correo registrado
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- PERFIL -->
+
+                                <td>
+
+                                    {% if usuario.is_superuser %}
+
+                                        <span class="perfil-badge perfil-superusuario">
+                                            Superusuario
+                                        </span>
+
+                                    {% else %}
+
+                                        {% for grupo in usuario.groups.all %}
+
+                                            {% if grupo.name == "Administrador" %}
+
+                                                <span class="perfil-badge perfil-administrador">
+                                                    Administrador
+                                                </span>
+
+                                            {% elif grupo.name == "Supervisor" %}
+
+                                                <span class="perfil-badge perfil-supervisor">
+                                                    Supervisor
+                                                </span>
+
+                                            {% elif grupo.name == "Administrativo" %}
+
+                                                <span class="perfil-badge perfil-administrativo">
+                                                    Administrativo
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="perfil-badge perfil-sin-asignar">
+                                                    {{ grupo.name }}
+                                                </span>
+
+                                            {% endif %}
+
+                                        {% empty %}
+
+                                            <span class="perfil-badge perfil-sin-asignar">
+                                                Sin perfil
+                                            </span>
+
+                                        {% endfor %}
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ESTADO -->
+
+                                <td>
+
+                                    {% if usuario.is_active %}
+
+                                        <span class="badge bg-success">
+                                            Activo
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-danger">
+                                            Inactivo
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <!-- ACCIONES -->
+
+                                <td>
+
+                                    {% if usuario.is_superuser %}
+
+                                        <span class="text-muted small">
+                                            Protegido
+                                        </span>
+
+                                    {% elif usuario.pk == user.pk %}
+
+                                        <span class="text-muted small">
+                                            Tu cuenta
+                                        </span>
+
+                                    {% else %}
+
+                                        <a
+                                            href="{% url 'editar_usuario' usuario.pk %}"
+                                            class="btn btn-warning btn-sm">
+
+                                            Modificar
+
+                                        </a>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td colspan="6"
+                                    class="text-center py-5">
+
+                                    {% if busqueda %}
+
+                                        No se encontraron usuarios
+                                        que coincidan con la búsqueda.
+
+                                    {% else %}
+
+                                        No existen usuarios registrados.
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- INFORMACION DE SEGURIDAD                 -->
+        <!-- ========================================= -->
+
+        <div class="alert alert-info mt-4">
+
+            <strong>Información de seguridad:</strong>
+
+            <p class="usuarios-ayuda mb-0 mt-2">
+
+                Las cuentas de superusuario están protegidas.
+                Tampoco puedes modificar tu propia cuenta
+                desde este módulo.
+
+                Los usuarios desactivados no podrán iniciar
+                sesión hasta que un Administrador vuelva
+                a activar sus cuentas.
+
+                Para recuperar una contraseña, cada usuario
+                debe tener registrado un correo electrónico
+                válido.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

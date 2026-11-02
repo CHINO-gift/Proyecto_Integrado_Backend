@@ -1,0 +1,456 @@
+
+{% extends 'base.html' %}
+
+{% block titulo %}
+{{ titulo }} | SIGED
+{% endblock %}
+
+
+{% block contenido %}
+
+<!-- ================================================= -->
+<!-- SIGED EVA 3 - FORMULARIO DE GESTION DE USUARIOS   -->
+<!-- ================================================= -->
+
+<section class="py-5" style="background: #f1f5f9; min-height: 80vh;">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-9">
+
+                <!-- ENCABEZADO -->
+
+                <div class="mb-4">
+
+                    <h1 class="fw-bold"
+                        style="color: #17324d;">
+
+                        {{ titulo }}
+
+                    </h1>
+
+                    <p class="text-muted">
+                        Administra los datos de acceso,
+                        la información personal y el perfil
+                        del usuario en SIGED.
+                    </p>
+
+                </div>
+
+
+                <!-- TARJETA DEL FORMULARIO -->
+
+                <div class="card shadow-sm border-0 rounded-4">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <!-- ERRORES GENERALES -->
+
+                        {% if formulario.non_field_errors %}
+
+                            <div class="alert alert-danger">
+
+                                {% for error in formulario.non_field_errors %}
+
+                                    <p class="mb-1">
+                                        {{ error }}
+                                    </p>
+
+                                {% endfor %}
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <form method="POST">
+
+                            {% csrf_token %}
+
+
+                            <!-- ===================================== -->
+                            <!-- DATOS DEL USUARIO                     -->
+                            <!-- ===================================== -->
+
+                            <h4 class="fw-bold mb-3"
+                                style="color: #17324d;">
+
+                                Datos del usuario
+
+                            </h4>
+
+
+                            <div class="row g-4">
+
+                                <!-- NOMBRE DE USUARIO -->
+
+                                <div class="col-12">
+
+                                    <label
+                                        for="{{ formulario.username.id_for_label }}"
+                                        class="form-label fw-semibold">
+
+                                        {{ formulario.username.label }}
+
+                                    </label>
+
+                                    {{ formulario.username }}
+
+                                    {% for error in formulario.username.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- NOMBRES -->
+
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="{{ formulario.first_name.id_for_label }}"
+                                        class="form-label fw-semibold">
+
+                                        {{ formulario.first_name.label }}
+
+                                    </label>
+
+                                    {{ formulario.first_name }}
+
+                                    {% for error in formulario.first_name.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- APELLIDOS -->
+
+                                <div class="col-md-6">
+
+                                    <label
+                                        for="{{ formulario.last_name.id_for_label }}"
+                                        class="form-label fw-semibold">
+
+                                        {{ formulario.last_name.label }}
+
+                                    </label>
+
+                                    {{ formulario.last_name }}
+
+                                    {% for error in formulario.last_name.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- CORREO ELECTRONICO -->
+
+                                <div class="col-12">
+
+                                    <label
+                                        for="{{ formulario.email.id_for_label }}"
+                                        class="form-label fw-semibold">
+
+                                        {{ formulario.email.label }}
+
+                                    </label>
+
+                                    {{ formulario.email }}
+
+                                    {% for error in formulario.email.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                    <div class="form-text">
+
+                                        Este correo permitirá recuperar
+                                        la contraseña del usuario.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <hr class="my-4">
+
+
+                            <!-- ===================================== -->
+                            <!-- ASIGNACION DE PERFIL                  -->
+                            <!-- ===================================== -->
+
+                            <h4 class="fw-bold mb-3"
+                                style="color: #17324d;">
+
+                                Perfil y permisos
+
+                            </h4>
+
+
+                            <div class="row g-4">
+
+                                <div class="col-12">
+
+                                    <label
+                                        for="{{ formulario.perfil.id_for_label }}"
+                                        class="form-label fw-semibold">
+
+                                        {{ formulario.perfil.label }}
+
+                                    </label>
+
+                                    {{ formulario.perfil }}
+
+                                    {% for error in formulario.perfil.errors %}
+
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+
+                                    {% endfor %}
+
+                                    <div class="form-text">
+
+                                        Selecciona el nivel de acceso
+                                        correspondiente al usuario.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DESCRIPCION DE PERFILES -->
+
+                            <div class="alert alert-info mt-4 mb-0">
+
+                                <strong>
+                                    Perfiles disponibles:
+                                </strong>
+
+                                <ul class="mb-0 mt-2">
+
+                                    <li>
+                                        <strong>Administrador:</strong>
+                                        gestión completa del sistema.
+                                    </li>
+
+                                    <li>
+                                        <strong>Supervisor:</strong>
+                                        consulta, registro y modificación
+                                        de información autorizada.
+                                    </li>
+
+                                    <li>
+                                        <strong>Administrativo:</strong>
+                                        consulta de información.
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+
+                            <!-- ===================================== -->
+                            <!-- CONTRASENA PARA CUENTAS NUEVAS        -->
+                            <!-- ===================================== -->
+
+                            {% if es_creacion %}
+
+                                <hr class="my-4">
+
+                                <h4 class="fw-bold mb-3"
+                                    style="color: #17324d;">
+
+                                    Contraseña inicial
+
+                                </h4>
+
+                                <div class="row g-4">
+
+                                    <!-- CONTRASENA -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                            for="{{ formulario.password1.id_for_label }}"
+                                            class="form-label fw-semibold">
+
+                                            Nueva contraseña
+
+                                        </label>
+
+                                        {{ formulario.password1 }}
+
+                                        {% for error in formulario.password1.errors %}
+
+                                            <div class="text-danger small mt-1">
+                                                {{ error }}
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+
+                                    <!-- CONFIRMAR CONTRASENA -->
+
+                                    <div class="col-md-6">
+
+                                        <label
+                                            for="{{ formulario.password2.id_for_label }}"
+                                            class="form-label fw-semibold">
+
+                                            Confirmar contraseña
+
+                                        </label>
+
+                                        {{ formulario.password2 }}
+
+                                        {% for error in formulario.password2.errors %}
+
+                                            <div class="text-danger small mt-1">
+                                                {{ error }}
+                                            </div>
+
+                                        {% endfor %}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="alert alert-warning mt-4">
+
+                                    La contraseña debe cumplir
+                                    los requisitos de seguridad
+                                    configurados en Django.
+
+                                    No la compartas por medios
+                                    inseguros.
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ===================================== -->
+                            <!-- ESTADO DE CUENTA EN EDICION           -->
+                            <!-- ===================================== -->
+
+                            {% if not es_creacion %}
+
+                                <hr class="my-4">
+
+                                <h4 class="fw-bold mb-3"
+                                    style="color: #17324d;">
+
+                                    Estado de la cuenta
+
+                                </h4>
+
+                                <div class="form-check form-switch">
+
+                                    {{ formulario.is_active }}
+
+                                    <label
+                                        class="form-check-label fw-semibold"
+                                        for="{{ formulario.is_active.id_for_label }}">
+
+                                        Cuenta activa
+
+                                    </label>
+
+                                </div>
+
+
+                                <p class="text-muted small mt-3">
+
+                                    Si desactivas esta cuenta,
+                                    el usuario no podrá iniciar sesión
+                                    hasta que vuelva a ser activada.
+
+                                </p>
+
+                                {% for error in formulario.is_active.errors %}
+
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+
+                                {% endfor %}
+
+
+                                <div class="alert alert-info mt-3">
+
+                                    Para cambiar una contraseña
+                                    se utiliza el sistema de recuperación
+                                    por correo de SIGED.
+
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- ===================================== -->
+                            <!-- BOTONES                               -->
+                            <!-- ===================================== -->
+
+                            <div class="d-flex flex-wrap gap-3 mt-4">
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success px-4">
+
+                                    {{ accion }}
+
+                                </button>
+
+
+                                <a
+                                    href="{% url 'inicio_usuarios' %}"
+                                    class="btn btn-outline-secondary px-4">
+
+                                    Cancelar
+
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

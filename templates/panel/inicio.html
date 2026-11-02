@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block titulo %}
@@ -394,9 +393,10 @@ Panel de {{ perfil }} | SIGED
                                 configuración de permisos.
                             </p>
 
-                            <span class="dashboard-estado">
-                                Próximamente
-                            </span>
+                            <a href="{% url 'inicio_usuarios' %}"
+                               class="dashboard-enlace">
+                                Administrar usuarios &rarr;
+                            </a>
 
                         </div>
 

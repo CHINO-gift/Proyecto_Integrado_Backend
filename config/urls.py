@@ -13,11 +13,14 @@ from . import views
 
 def inicio(request):
 
-    # Usuario autenticado: abrir dashboard.
+    # Si el usuario ya inicio sesion,
+    # redirigir al panel correspondiente.
+
     if request.user.is_authenticated:
         return redirect("panel_principal")
 
-    # Usuario no autenticado: abrir login.
+    # Si no ha iniciado sesion, mostrar login.
+
     return redirect("login")
 
 
@@ -28,7 +31,7 @@ def inicio(request):
 urlpatterns = [
 
     # =====================================================
-    # INICIO
+    # PAGINA PRINCIPAL
     # =====================================================
 
     path(
@@ -78,7 +81,7 @@ urlpatterns = [
     ),
 
     # =====================================================
-    # RECUPERACION - SOLICITUD ENVIADA
+    # RECUPERACION - SOLICITUD PROCESADA
     # =====================================================
 
     path(
@@ -139,6 +142,15 @@ urlpatterns = [
     path(
         "funcionarios/",
         include("funcionariosApp.urls")
+    ),
+
+    # =====================================================
+    # EVA 3 - GESTION DE USUARIOS Y PERFILES
+    # =====================================================
+
+    path(
+        "usuarios/",
+        include("usuariosApp.urls")
     ),
 
     # =====================================================
