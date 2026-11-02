@@ -5,7 +5,6 @@
 Gestión de Usuarios | SIGED
 {% endblock %}
 
-
 {% block contenido %}
 
 <!-- ================================================= -->
@@ -13,7 +12,6 @@ Gestión de Usuarios | SIGED
 <!-- ================================================= -->
 
 <style>
-
     .usuarios-seccion {
         background: #f1f5f9;
         min-height: 80vh;
@@ -46,12 +44,22 @@ Gestión de Usuarios | SIGED
         margin-bottom: 0;
     }
 
-    .usuarios-tabla thead {
-        background: #173b59;
-    }
+    /* ============================================= */
+    /* CORRECCION DE ENCABEZADOS DE LA TABLA         */
+    /* ============================================= */
+
+    /*
+       Bootstrap aplica fondos propios a las celdas
+       de las tablas.
+
+       Aplicamos el color directamente a los th
+       para evitar que el texto blanco sea invisible.
+    */
 
     .usuarios-tabla thead th {
-        color: white;
+        background-color: #173b59 !important;
+        color: #ffffff !important;
+        border-color: #173b59 !important;
         font-size: 13px;
         font-weight: 600;
         padding: 18px;
@@ -79,6 +87,10 @@ Gestión de Usuarios | SIGED
         font-size: 13px;
         overflow-wrap: anywhere;
     }
+
+    /* ============================================= */
+    /* ETIQUETAS DE PERFILES                         */
+    /* ============================================= */
 
     .perfil-badge {
         display: inline-block;
@@ -113,6 +125,10 @@ Gestión de Usuarios | SIGED
         color: #92400e;
     }
 
+    /* ============================================= */
+    /* RESUMEN DE USUARIOS                           */
+    /* ============================================= */
+
     .usuarios-resumen {
         background: white;
         border: 1px solid #e5edf2;
@@ -131,6 +147,10 @@ Gestión de Usuarios | SIGED
         line-height: 1.7;
     }
 
+    /* ============================================= */
+    /* DISEÑO RESPONSIVE                             */
+    /* ============================================= */
+
     @media (max-width: 768px) {
 
         .usuarios-titulo {
@@ -140,9 +160,7 @@ Gestión de Usuarios | SIGED
         .usuarios-seccion {
             padding-top: 35px;
         }
-
     }
-
 </style>
 
 
@@ -337,15 +355,36 @@ Gestión de Usuarios | SIGED
 
                 <table class="table table-hover usuarios-tabla">
 
+                    <!-- ENCABEZADO CORREGIDO -->
+
                     <thead>
 
                         <tr>
-                            <th>Usuario</th>
-                            <th>Nombre completo</th>
-                            <th>Correo electrónico</th>
-                            <th>Perfil</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+
+                            <th scope="col">
+                                Usuario
+                            </th>
+
+                            <th scope="col">
+                                Nombre completo
+                            </th>
+
+                            <th scope="col">
+                                Correo electrónico
+                            </th>
+
+                            <th scope="col">
+                                Perfil
+                            </th>
+
+                            <th scope="col">
+                                Estado
+                            </th>
+
+                            <th scope="col">
+                                Acciones
+                            </th>
+
                         </tr>
 
                     </thead>
@@ -401,7 +440,7 @@ Gestión de Usuarios | SIGED
                                 </td>
 
 
-                                <!-- CORREO -->
+                                <!-- CORREO ELECTRONICO -->
 
                                 <td>
 
@@ -475,7 +514,7 @@ Gestión de Usuarios | SIGED
                                 </td>
 
 
-                                <!-- ESTADO -->
+                                <!-- ESTADO DE LA CUENTA -->
 
                                 <td>
 
@@ -530,6 +569,8 @@ Gestión de Usuarios | SIGED
 
                         {% empty %}
 
+                            <!-- SIN RESULTADOS -->
+
                             <tr>
 
                                 <td colspan="6"
@@ -567,7 +608,9 @@ Gestión de Usuarios | SIGED
 
         <div class="alert alert-info mt-4">
 
-            <strong>Información de seguridad:</strong>
+            <strong>
+                Información de seguridad:
+            </strong>
 
             <p class="usuarios-ayuda mb-0 mt-2">
 
