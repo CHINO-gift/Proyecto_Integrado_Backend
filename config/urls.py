@@ -4,46 +4,45 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.shortcuts import redirect
 
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularSwaggerView,
+    SpectacularRedocView,
+)
+
 from . import views
 
 
 # =========================================================
-# SIGED EVA 3 - PAGINA PRINCIPAL
+# SIGED - PAGINA PRINCIPAL
 # =========================================================
 
 def inicio(request):
-
-    # Si el usuario ya inicio sesion,
-    # redirigir al panel correspondiente.
-
     if request.user.is_authenticated:
         return redirect("panel_principal")
-
-    # Si no ha iniciado sesion, mostrar login.
 
     return redirect("login")
 
 
 # =========================================================
-# SIGED EVA 3 - RUTAS PRINCIPALES
+# RUTAS DEL PROYECTO SIGED
 # =========================================================
 
 urlpatterns = [
 
-    # =====================================================
     # PAGINA PRINCIPAL
-    # =====================================================
-
     path(
         "",
         inicio,
         name="inicio"
     ),
 
-    # =====================================================
-    # INICIO DE SESION
-    # =====================================================
-
+    # INICIO DE SESION WEB
     path(
         "acceso/",
         auth_views.LoginView.as_view(
@@ -54,10 +53,7 @@ urlpatterns = [
         name="login"
     ),
 
-    # =====================================================
     # CERRAR SESION
-    # =====================================================
-
     path(
         "salir/",
         auth_views.LogoutView.as_view(
@@ -66,10 +62,7 @@ urlpatterns = [
         name="logout"
     ),
 
-    # =====================================================
-    # RECUPERACION DE CONTRASENA - SOLICITUD
-    # =====================================================
-
+    # RECUPERACION DE CONTRASENA
     path(
         "recuperar-contrasena/",
         auth_views.PasswordResetView.as_view(
@@ -80,10 +73,6 @@ urlpatterns = [
         name="password_reset"
     ),
 
-    # =====================================================
-    # RECUPERACION - SOLICITUD PROCESADA
-    # =====================================================
-
     path(
         "recuperar-contrasena/enviado/",
         auth_views.PasswordResetDoneView.as_view(
@@ -91,10 +80,6 @@ urlpatterns = [
         ),
         name="password_reset_done"
     ),
-
-    # =====================================================
-    # RECUPERACION - NUEVA CONTRASENA
-    # =====================================================
 
     path(
         "restablecer-contrasena/<uidb64>/<token>/",
@@ -104,10 +89,6 @@ urlpatterns = [
         name="password_reset_confirm"
     ),
 
-    # =====================================================
-    # RECUPERACION - PROCESO COMPLETADO
-    # =====================================================
-
     path(
         "restablecer-contrasena/completado/",
         auth_views.PasswordResetCompleteView.as_view(
@@ -116,50 +97,82 @@ urlpatterns = [
         name="password_reset_complete"
     ),
 
-    # =====================================================
-    # DASHBOARD PRINCIPAL
-    # =====================================================
-
+    # DASHBOARD
     path(
         "panel/",
         views.panel_principal,
         name="panel_principal"
     ),
 
-    # =====================================================
-    # GESTION DE DELEGACIONES
-    # =====================================================
-
+    # MANTENEDOR DE DELEGACIONES
     path(
         "delegaciones/",
         include("delegacionesApp.urls")
     ),
 
-    # =====================================================
-    # GESTION DE FUNCIONARIOS
-    # =====================================================
-
+    # MANTENEDOR DE FUNCIONARIOS
     path(
         "funcionarios/",
         include("funcionariosApp.urls")
     ),
 
-    # =====================================================
-    # EVA 3 - GESTION DE USUARIOS Y PERFILES
-    # =====================================================
-
+    # GESTION DE USUARIOS Y PERFILES
     path(
         "usuarios/",
         include("usuariosApp.urls")
     ),
 
-    # =====================================================
     # ADMINISTRACION DJANGO
-    # =====================================================
-
     path(
         "admin/",
         admin.site.urls
+    ),
+
+    # =====================================================
+    # EVA 4 - AUTENTICACION JWT
+    # =====================================================
+
+    # Obtener Access Token y Refresh Token.
+    path(
+        "api/token/",
+        TokenObtainPairView.as_view(),
+        name="token_obtain_pair"
+    ),
+
+    # Renovar Access Token.
+    path(
+        "api/token/refresh/",
+        TokenRefreshView.as_view(),
+        name="token_refresh"
+    ),
+
+    # =====================================================
+    # EVA 4 - SWAGGER / OPENAPI
+    # =====================================================
+
+    # Esquema OpenAPI.
+    path(
+        "api/schema/",
+        SpectacularAPIView.as_view(),
+        name="schema"
+    ),
+
+    # Documentacion interactiva Swagger UI.
+    path(
+        "api/swagger/",
+        SpectacularSwaggerView.as_view(
+            url_name="schema"
+        ),
+        name="swagger-ui"
+    ),
+
+    # Documentacion alternativa ReDoc.
+    path(
+        "api/redoc/",
+        SpectacularRedocView.as_view(
+            url_name="schema"
+        ),
+        name="redoc"
     ),
 
 ]

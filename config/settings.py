@@ -40,9 +40,6 @@ ALLOWED_HOSTS = [
 # EVA 3 - SEGURIDAD HTTPS EN AWS
 # =========================================================
 
-# En AWS, Nginx recibe las conexiones HTTPS
-# y las comunica a Django mediante Gunicorn.
-
 if DEBUG:
     SECURE_PROXY_SSL_HEADER = None
 else:
@@ -51,16 +48,10 @@ else:
         "https"
     )
 
-
-# Cookies seguras en produccion
-
 SESSION_COOKIE_SECURE = not DEBUG
-
 CSRF_COOKIE_SECURE = not DEBUG
 
-
-# Nginx realiza la redireccion HTTP a HTTPS
-
+# Nginx realiza la redireccion HTTP a HTTPS.
 SECURE_SSL_REDIRECT = False
 
 
@@ -76,12 +67,16 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    # Aplicaciones originales de SIGED
+    # SIGED EVA 3
     "delegacionesApp",
     "funcionariosApp",
-
-    # EVA 3 - Gestion de usuarios y perfiles
     "usuariosApp",
+
+    # SIGED EVA 4 - API RESTful
+    "rest_framework",
+
+    # SIGED EVA 4 - Swagger / OpenAPI
+    "drf_spectacular",
 ]
 
 
@@ -113,15 +108,13 @@ ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
-        "BACKEND":
-            "django.template.backends.django.DjangoTemplates",
-
+        "BACKEND": (
+            "django.template.backends.django.DjangoTemplates"
+        ),
         "DIRS": [
             BASE_DIR / "templates",
         ],
-
         "APP_DIRS": True,
-
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
@@ -141,7 +134,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 
 # =========================================================
-# BASE DE DATOS MYSQL
+# BASE DE DATOS MYSQL / MARIADB
 # =========================================================
 
 DATABASES = {
@@ -162,20 +155,28 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME":
-            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        "NAME":
-            "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        ),
     },
     {
-        "NAME":
-            "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        ),
     },
     {
-        "NAME":
-            "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        ),
     },
 ]
 
@@ -189,7 +190,6 @@ LANGUAGE_CODE = "es-cl"
 TIME_ZONE = "America/Santiago"
 
 USE_I18N = True
-
 USE_TZ = True
 
 
@@ -207,7 +207,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # =========================================================
-# EVA 3 - AUTENTICACION
+# EVA 3 - AUTENTICACION WEB
 # =========================================================
 
 LOGIN_URL = "login"
@@ -220,9 +220,6 @@ LOGOUT_REDIRECT_URL = "login"
 # =========================================================
 # EVA 3 - RECUPERACION DE CONTRASENAS
 # =========================================================
-
-# Tiempo de vigencia del enlace de recuperacion:
-# 3600 segundos = 60 minutos.
 
 PASSWORD_RESET_TIMEOUT = int(
     os.getenv("PASSWORD_RESET_TIMEOUT", "3600")
@@ -255,9 +252,6 @@ EMAIL_USE_SSL = (
     os.getenv("EMAIL_USE_SSL", "False").lower() == "true"
 )
 
-
-# Credenciales privadas obtenidas desde .env
-
 EMAIL_HOST_USER = os.getenv(
     "EMAIL_HOST_USER",
     ""
@@ -276,6 +270,69 @@ DEFAULT_FROM_EMAIL = os.getenv(
 EMAIL_TIMEOUT = int(
     os.getenv("EMAIL_TIMEOUT", "15")
 )
+
+
+# =========================================================
+# EVA 4 - DJANGO REST FRAMEWORK
+# =========================================================
+
+REST_FRAMEWORK = {
+
+    # La API utiliza autenticacion mediante JWT.
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        (
+            "rest_framework_simplejwt.authentication."
+            "JWTAuthentication"
+        ),
+    ],
+
+    # Las vistas API requieren autenticacion por defecto.
+    # Los permisos por perfil se agregaran a cada endpoint.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+
+    # Respuestas de la API en JSON.
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
+
+    # Generacion del esquema OpenAPI.
+    "DEFAULT_SCHEMA_CLASS": (
+        "drf_spectacular.openapi.AutoSchema"
+    ),
+}
+
+
+# =========================================================
+# EVA 4 - CONFIGURACION JWT
+# =========================================================
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
+
+
+# =========================================================
+# EVA 4 - SWAGGER / OPENAPI
+# =========================================================
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "SIGED - API RESTful",
+    "DESCRIPTION": (
+        "API RESTful del Sistema de Gestion de "
+        "Delegaciones Municipales. "
+        "Incluye mantenedores, transacciones "
+        "y autenticacion JWT."
+    ),
+    "VERSION": "4.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "COMPONENT_SPLIT_REQUEST": True,
+}
 
 
 # =========================================================
