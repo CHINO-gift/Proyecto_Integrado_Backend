@@ -35,14 +35,20 @@ def inicio(request):
 
 urlpatterns = [
 
-    # PAGINA PRINCIPAL
+    # =====================================================
+    # EVA 3 - PAGINA PRINCIPAL
+    # =====================================================
+
     path(
         "",
         inicio,
         name="inicio"
     ),
 
-    # INICIO DE SESION WEB
+    # =====================================================
+    # EVA 3 - INICIO DE SESION
+    # =====================================================
+
     path(
         "acceso/",
         auth_views.LoginView.as_view(
@@ -53,7 +59,10 @@ urlpatterns = [
         name="login"
     ),
 
-    # CERRAR SESION
+    # =====================================================
+    # EVA 3 - CERRAR SESION
+    # =====================================================
+
     path(
         "salir/",
         auth_views.LogoutView.as_view(
@@ -62,7 +71,10 @@ urlpatterns = [
         name="logout"
     ),
 
-    # RECUPERACION DE CONTRASENA
+    # =====================================================
+    # EVA 3 - RECUPERACION DE CONTRASENA
+    # =====================================================
+
     path(
         "recuperar-contrasena/",
         auth_views.PasswordResetView.as_view(
@@ -97,49 +109,71 @@ urlpatterns = [
         name="password_reset_complete"
     ),
 
-    # DASHBOARD
+    # =====================================================
+    # EVA 3 - DASHBOARD
+    # =====================================================
+
     path(
         "panel/",
         views.panel_principal,
         name="panel_principal"
     ),
 
-    # MANTENEDOR DE DELEGACIONES
+    # =====================================================
+    # EVA 3 - MANTENEDOR WEB DE DELEGACIONES
+    # =====================================================
+
     path(
         "delegaciones/",
         include("delegacionesApp.urls")
     ),
 
-    # MANTENEDOR DE FUNCIONARIOS
+    # =====================================================
+    # EVA 3 - MANTENEDOR WEB DE FUNCIONARIOS
+    # =====================================================
+
     path(
         "funcionarios/",
         include("funcionariosApp.urls")
     ),
 
-    # GESTION DE USUARIOS Y PERFILES
+    # =====================================================
+    # EVA 3 - GESTION DE USUARIOS
+    # =====================================================
+
     path(
         "usuarios/",
         include("usuariosApp.urls")
     ),
 
+    # =====================================================
     # ADMINISTRACION DJANGO
+    # =====================================================
+
     path(
         "admin/",
         admin.site.urls
     ),
 
     # =====================================================
+    # EVA 4 - API RESTFUL DE DELEGACIONES
+    # =====================================================
+
+    path(
+        "api/delegaciones/",
+        include("delegacionesApp.api_urls")
+    ),
+
+    # =====================================================
     # EVA 4 - AUTENTICACION JWT
     # =====================================================
 
-    # Obtener Access Token y Refresh Token.
     path(
         "api/token/",
         TokenObtainPairView.as_view(),
         name="token_obtain_pair"
     ),
 
-    # Renovar Access Token.
     path(
         "api/token/refresh/",
         TokenRefreshView.as_view(),
@@ -150,14 +184,12 @@ urlpatterns = [
     # EVA 4 - SWAGGER / OPENAPI
     # =====================================================
 
-    # Esquema OpenAPI.
     path(
         "api/schema/",
         SpectacularAPIView.as_view(),
         name="schema"
     ),
 
-    # Documentacion interactiva Swagger UI.
     path(
         "api/swagger/",
         SpectacularSwaggerView.as_view(
@@ -166,7 +198,6 @@ urlpatterns = [
         name="swagger-ui"
     ),
 
-    # Documentacion alternativa ReDoc.
     path(
         "api/redoc/",
         SpectacularRedocView.as_view(
